@@ -12,10 +12,10 @@ namespace ControlAndAquisition
         Random rand = new Random();
         private double randChance = 0.8;
         Timer aTimer;
-        private double y;
+        public double y { get; set; }
         private double enviroment { get; set; }
         private double[] delayu;
-        private double u { get; set; }
+        public double u { get; set; }
         private double TimeConstant { get; set; }
         private double tau { get; set; }
         private double ts { get; set; }
@@ -42,12 +42,11 @@ namespace ControlAndAquisition
             aTimer.Enabled = true;
             
         }
-        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             updateY();
         }
-
-
 
         private void updateY()
         {
