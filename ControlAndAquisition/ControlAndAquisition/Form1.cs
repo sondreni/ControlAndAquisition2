@@ -15,6 +15,7 @@ namespace ControlAndAquisition
     {
         public Form1()
         {
+            double TEST = 13.37;
             InitializeComponent();
             
         }
