@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NationalInstruments;
+using NationalInstruments.DataInfrastructure;
+
+
 
 
 namespace ControlAndAquisition
@@ -19,5 +23,11 @@ namespace ControlAndAquisition
             InitializeComponent();
             
         }
+
+
+
+
+
+
     }
 }
