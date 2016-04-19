@@ -17,9 +17,11 @@ namespace ControlAndAquisition
 {
     public partial class Form1 : Form
     {
+        PIController PI = new PIController();
         public Form1()
         {
-            double toTEST = 13;
+
+            
             InitializeComponent();
             
         }
