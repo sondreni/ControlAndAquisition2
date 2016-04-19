@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using
+using System.Timers;
 
 namespace ControlAndAquisition
 {
@@ -11,7 +11,7 @@ namespace ControlAndAquisition
     {
         Random rand = new Random();
         private double randChance = 0.8;
-        private static System.Timers.Timer aTimer;
+        Timer aTimer;
         private double y;
         private double enviroment { get; set; }
         private double[] delayu;
@@ -34,15 +34,21 @@ namespace ControlAndAquisition
             {
                 delayu[i] = 0;
             }
-            aTimer = new System.Timers.Timer();
-            aTimer.Interval = ts*1000;
-            aTimer.Enabled = true;
+            Timer aTimer = new Timer(ts * 1000);
 
+
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+            
         }
-        private void aTimer_Tick()
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             updateY();
         }
+
+
+
         private void updateY()
         {
             for (int i = 0; i < delayu.Length-1; i++)
