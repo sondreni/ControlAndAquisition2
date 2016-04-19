@@ -16,6 +16,7 @@ namespace ControlAndAquisition
 {
     public partial class Form1 : Form
     {
+        PIController PI;
         Simulator Tempsimulator;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
@@ -27,26 +28,34 @@ namespace ControlAndAquisition
 
             InitializeComponent();
             Tempsimulator = new Simulator(TimeStep);
-            System.Timers.Timer aTimer = new System.Timers.Timer(ts * 1000);
+            System.Timers.Timer aTimer = new System.Timers.Timer(TimeStep * 1000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
+
+            PI = new PIController(TimeStep);
+
 
 
             chart1.Series.Clear();
             chart1.Series.Add("°C");
             chart1.Series["°C"].ChartType = SeriesChartType.Spline;
+            chart1.Series.Add("u");
+            chart1.Series["u"].ChartType = SeriesChartType.Spline;
+            chart1.Series.Add("r");
+            chart1.Series["r"].ChartType = SeriesChartType.Spline;
 
         }
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             time += TimeStep;
-            r = Convert.ToDouble(txtRefrence.Text);
+            PI.r = Convert.ToDouble(txtRefrence.Text);
+            Tempsimulator.u = PI.Compute(Tempsimulator.y);
 
-
-
-            chart1.Series["°C"].Points.AddXY(time, Tempsimulator.y);
+            //chart1.Series["u"].Points.AddXY(time, PI.U);
+            //chart1.Series["°C"].Points.AddXY(time, Tempsimulator.y);
+            //chart1.Series["r"].Points.AddXY(time, PI.r);
         }
     }
 }
