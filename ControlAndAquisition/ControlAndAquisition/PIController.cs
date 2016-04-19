@@ -10,17 +10,19 @@ namespace ControlAndAquisition
     class PIController
     {
         double P;
-        double Kp;
-        double e;
-        double Ts;
-        double Ti;
+        double Kp = 0.7755;
+        double PV;
+        double Ts = 0.05;
+        double Ti = 20.2041;
         double I;
         double U;
-        double MaxU;
-        double MinU;
-
+        double MaxU = 5.0;
+        double MinU = 0.0;
+        double r;
+        double e;
         double Compute()
         {
+            e = r - PV;
             P = Kp * e;
             I = I + e * (Kp * Ts) / Ti;
 
@@ -28,12 +30,10 @@ namespace ControlAndAquisition
             if (I > MaxU)
             {
                 I = MaxU;
-
             }
-            else if(I<MinU)
+            else if (I < MinU)
             {
-                    I = MinU;
-                
+                I = MinU;
             }
 
             if (P + I > MaxU)
@@ -43,7 +43,7 @@ namespace ControlAndAquisition
 
             else if (P + I < MinU)
             {
-
+                U = MinU;
             }
             else
             {
