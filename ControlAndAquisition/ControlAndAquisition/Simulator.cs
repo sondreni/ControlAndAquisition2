@@ -13,6 +13,7 @@ namespace ControlAndAquisition
         private double randChance = 0.8;
         Timer aTimer;
         public double y { get; set; }
+        private double yHeat;
         private double enviroment { get; set; }
         private double[] delayu;
         public double u { get; set; }
@@ -55,7 +56,9 @@ namespace ControlAndAquisition
                 delayu[i+1] = delayu[i];
             }
             delayu[0] = u;
-            y = enviroment + y * (1 - (ts / TimeConstant)) + (ts / TimeConstant) * gain * delayu[delayu.Length - 1];
+
+            yHeat = yHeat * (1 - (ts / TimeConstant)) + (ts / TimeConstant) * gain * delayu[delayu.Length - 1];
+            y = enviroment + yHeat;
             if (rand.NextDouble()> randChance)
             {
                 y = y + (rand.NextDouble() - 0.5)/5;

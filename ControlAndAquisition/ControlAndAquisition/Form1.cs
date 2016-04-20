@@ -21,7 +21,10 @@ namespace ControlAndAquisition
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
         double time = 0.0;
-        double r;
+        double r=0;
+        double y=0;
+        double u=0;
+
         public Form1()
         {
 
@@ -49,13 +52,26 @@ namespace ControlAndAquisition
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            time += TimeStep;
-            PI.r = Convert.ToDouble(txtRefrence.Text);
-            Tempsimulator.u = PI.Compute(Tempsimulator.y);
+            
 
-            //chart1.Series["u"].Points.AddXY(time, PI.U);
-            //chart1.Series["°C"].Points.AddXY(time, Tempsimulator.y);
-            //chart1.Series["r"].Points.AddXY(time, PI.r);
+            
+            
+
+            
+        }
+
+        private void tmrLoop_Tick(object sender, EventArgs e)
+        {
+            time += TimeStep;
+            r = PI.r = Convert.ToDouble(txtRefrence.Text);
+            u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
+            y = Tempsimulator.y;
+            txtuu.Text = Convert.ToString(u);
+            txtYY.Text = Convert.ToString(y);
+            chart1.Series["u"].Points.AddXY(time, u);
+            chart1.Series["°C"].Points.AddXY(time, y);
+            chart1.Series["r"].Points.AddXY(time, r);
+
         }
     }
 }
