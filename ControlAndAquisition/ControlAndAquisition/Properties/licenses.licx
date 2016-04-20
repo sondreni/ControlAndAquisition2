@@ -1,0 +1,3 @@
+NationalInstruments.UI.WindowsForms.Thermometer, NationalInstruments.UI.WindowsForms, Version=15.0.45.49153, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.WaveformGraph, NationalInstruments.UI.WindowsForms, Version=15.0.45.49153, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.Net.DataSocket,	NationalInstruments.Net, Version=13.0.45.242, Culture=neutral, PublicKeyToken=4febd62461bf11a4
