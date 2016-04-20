@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NationalInstruments;
 using NationalInstruments.DataInfrastructure;
+using NationalInstruments.DAQmx;
 using System.Timers;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -18,6 +19,7 @@ namespace ControlAndAquisition
     {
         PIController PI;
         Simulator Tempsimulator;
+        NIDAQ ReadY;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
         double time = 0.0;
@@ -38,7 +40,7 @@ namespace ControlAndAquisition
 
             PI = new PIController(TimeStep);
 
-
+            ReadY = new NIDAQ();
 
             chart1.Series.Clear();
             chart1.Series.Add("°C");
@@ -63,15 +65,29 @@ namespace ControlAndAquisition
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
             time += TimeStep;
+            time = Math.Round(time, 1);
             r = PI.r = Convert.ToDouble(txtRefrence.Text);
             u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
             y = Tempsimulator.y;
-            txtuu.Text = Convert.ToString(u);
-            txtYY.Text = Convert.ToString(y);
+            txtuu.Text = Convert.ToString(Math.Round(u, 1));
+            txtYY.Text = Convert.ToString(Math.Round(y, 1));
+            if (time > 60)
+            {
+                chart1.Series["u"].Points.RemoveAt(0);
+                chart1.Series["°C"].Points.RemoveAt(0);
+                chart1.Series["r"].Points.RemoveAt(0);
+            } 
+
             chart1.Series["u"].Points.AddXY(time, u);
             chart1.Series["°C"].Points.AddXY(time, y);
             chart1.Series["r"].Points.AddXY(time, r);
+            chart1.ResetAutoValues();
 
+
+        }
+        private void Read()
+        {
+            lblRead1.Text = Convert.ToString(ReadY.GetValue());
         }
     }
 }
