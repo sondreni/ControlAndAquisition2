@@ -19,6 +19,8 @@ namespace ControlAndAquisition
     {
         PIController PI;
         Simulator Tempsimulator;
+        OPC opc;
+       
         NIDAQ ReadY;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
@@ -39,6 +41,9 @@ namespace ControlAndAquisition
             aTimer.Enabled = true;
 
             PI = new PIController(TimeStep);
+            opc = new OPC();
+            opc.opcConnectSockets();
+
 
             ReadY = new NIDAQ();
 
@@ -65,10 +70,16 @@ namespace ControlAndAquisition
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
             time += TimeStep;
+            
+            r = PI.r  = opc.opcGetRef();
+            txtRefrence.Text = r.ToString();
             time = Math.Round(time, 1);
             r = PI.r = Convert.ToDouble(txtRefrence.Text);
             u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
             y = Tempsimulator.y;
+            opc.opcSendData(y, u);
+            txtuu.Text = Convert.ToString(u);
+            txtYY.Text = Convert.ToString(y);
             txtuu.Text = Convert.ToString(Math.Round(u, 1));
             txtYY.Text = Convert.ToString(Math.Round(y, 1));
             if (time > 60)
