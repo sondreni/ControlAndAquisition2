@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace ControlAndAquisition
 {
     class OPC
@@ -18,6 +19,8 @@ namespace ControlAndAquisition
         DataSocket dataSocketY = new DataSocket();
         DataSocket dataSocketU = new DataSocket();
         DataSocket dataSocketR = new DataSocket();
+        
+        //Testing
 
         public void opcConnectSockets()
         {
