@@ -20,7 +20,7 @@ namespace ControlAndAquisition
         DataSocket dataSocketU = new DataSocket();
         DataSocket dataSocketR = new DataSocket();
         
-        //Testing
+        
 
         public void opcConnectSockets()
         {
