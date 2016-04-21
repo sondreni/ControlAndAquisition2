@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NationalInstruments;
 using NationalInstruments.DataInfrastructure;
-using NationalInstruments.DAQmx;
+//using NationalInstruments.DAQmx;
 using System.Timers;
 using System.Windows.Forms.DataVisualization.Charting;
 
