@@ -20,6 +20,7 @@ namespace ControlAndAquisition
         PIController PI;
         Simulator Tempsimulator;
         OPC opc;
+        LowPassFilter LPFilter;
        
         //NIDAQ ReadY;
         System.Timers.Timer aTimer;
@@ -28,6 +29,7 @@ namespace ControlAndAquisition
         double r=0;
         double y=0;
         double u=0;
+        double FilteredY;
 
         public Form1()
         {
@@ -35,6 +37,7 @@ namespace ControlAndAquisition
 
             InitializeComponent();
             Tempsimulator = new Simulator(TimeStep);
+            LPFilter = new LowPassFilter(TimeStep);
             System.Timers.Timer aTimer = new System.Timers.Timer(TimeStep * 1000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
@@ -60,11 +63,7 @@ namespace ControlAndAquisition
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             
-
-            
-            
-
-            
+  
         }
 
         private void tmrLoop_Tick(object sender, EventArgs e)
@@ -77,6 +76,8 @@ namespace ControlAndAquisition
             
             u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
             y = Tempsimulator.y;
+
+            FilteredY = LPFilter.FilterValue(y);
             opc.opcSendData(y, u);
             
             txtuu.Text = Convert.ToString(Math.Round(u, 1));

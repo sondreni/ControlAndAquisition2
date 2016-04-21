@@ -65,6 +65,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LowPassFilter.cs" />
     <Compile Include="NIDAQ.cs" />
     <Compile Include="OPC.cs" />
     <Compile Include="PIController.cs" />
