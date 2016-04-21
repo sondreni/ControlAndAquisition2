@@ -23,7 +23,16 @@ namespace ControlAndAquisition
             double analogDataIn = reader.ReadSingleSample();
             return analogDataIn;
         }
-        
+        public void SetValue(double analogDataOut)
+        {
+            Task analogOutTask = new Task();
+            AOChannel myAOChannel;
+            myAOChannel = analogOutTask.AOChannels.CreateVoltageChannel("dev1/ao0","myAOChannel",0,5,AOVoltageUnits.Volts);
+            AnalogSingleChannelWriter writer = new
+            AnalogSingleChannelWriter(analogOutTask.Stream);
+                        
+            writer.WriteSingleSample(true, analogDataOut);
+        }
 
 
 

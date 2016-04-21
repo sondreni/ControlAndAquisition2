@@ -21,13 +21,14 @@ namespace ControlAndAquisition
         Simulator Tempsimulator;
         OPC opc;
        
-        //NIDAQ ReadY;
+        NIDAQ NIDAQRW;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
         double time = 0.0;
         double r=0;
         double y=0;
         double u=0;
+        double readV;
 
         public Form1()
         {
@@ -45,15 +46,15 @@ namespace ControlAndAquisition
             opc.opcConnectSockets();
 
 
-            //ReadY = new NIDAQ();
+            NIDAQRW = new NIDAQ();
 
             chart1.Series.Clear();
             chart1.Series.Add("°C");
-            chart1.Series["°C"].ChartType = SeriesChartType.Spline;
+            chart1.Series["°C"].ChartType = SeriesChartType.Line;
             chart1.Series.Add("u");
-            chart1.Series["u"].ChartType = SeriesChartType.Spline;
+            chart1.Series["u"].ChartType = SeriesChartType.Line;
             chart1.Series.Add("r");
-            chart1.Series["r"].ChartType = SeriesChartType.Spline;
+            chart1.Series["r"].ChartType = SeriesChartType.Line;
 
         }
 
@@ -74,9 +75,18 @@ namespace ControlAndAquisition
             r = PI.r  = opc.opcGetRef();
             txtRefrence.Text = r.ToString();
             time = Math.Round(time, 1);
-            
-            u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
-            y = Tempsimulator.y;
+
+            //y = Tempsimulator.y;
+            //u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
+
+
+            readV = Math.Round(NIDAQRW.GetValue(),4);
+            lblRead2.Text = readV.ToString();
+            y = (readV-1)*50/4;
+            u = PI.Compute(y);
+            NIDAQRW.SetValue(u);
+
+
             opc.opcSendData(y, u);
             
             txtuu.Text = Convert.ToString(Math.Round(u, 1));
@@ -93,11 +103,13 @@ namespace ControlAndAquisition
             chart1.Series["r"].Points.AddXY(time, r);
             chart1.ResetAutoValues();
 
+            //Read();
 
         }
         private void Read()
         {
-            //lblRead1.Text = Convert.ToString(ReadY.GetValue());
+            NIDAQRW.SetValue(Tempsimulator.u);
+            lblRead1.Text = Convert.ToString(NIDAQRW.GetValue());
         }
     }
 }
