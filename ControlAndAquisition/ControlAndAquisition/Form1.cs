@@ -82,15 +82,21 @@ namespace ControlAndAquisition
             readV = Math.Round(NIDAQRW.GetValue(),4);
             lblRead2.Text = readV.ToString();
             y = (readV-1)*50/4;
-            u = PI.Compute(y);
+
+            FilteredY = LPFilter.FilterValue(y);
+            opc.opcSendData(FilteredY, u);
+        
+
+            u = PI.Compute(y);//using the the unfiltered value for control
             NIDAQRW.SetValue(u);
 
 
-            u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
-            y = Tempsimulator.y;
 
-            FilteredY = LPFilter.FilterValue(y);
-            opc.opcSendData(y, u);
+            //waste
+            lblRead1.Text = FilteredY.ToString();
+
+            //
+            
             
             txtuu.Text = Convert.ToString(Math.Round(u, 1));
             txtYY.Text = Convert.ToString(Math.Round(y, 1));
@@ -102,7 +108,7 @@ namespace ControlAndAquisition
             } 
 
             chart1.Series["u"].Points.AddXY(time, u);
-            chart1.Series["°C"].Points.AddXY(time, y);
+            chart1.Series["°C"].Points.AddXY(time, FilteredY);
             chart1.Series["r"].Points.AddXY(time, r);
             chart1.ResetAutoValues();
 

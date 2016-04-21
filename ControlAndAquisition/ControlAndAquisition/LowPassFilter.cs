@@ -12,17 +12,27 @@ namespace ControlAndAquisition
         double Tf = 0.7;
         double FilteredValue;
         double a;
+        bool started = false;
         
         public LowPassFilter(double TimeStep)
         {
             Ts = TimeStep;
+            a = Ts / (Tf + Ts);
         }
 
         public double FilterValue(double ProcessValue)
         {
-            a = Ts / (Tf + Ts);
-            FilteredValue = ProcessValue;
-            FilteredValue = (1 - a) * FilteredValue + a * ProcessValue;
+            if (started)
+            {
+                FilteredValue = (1 - a) * FilteredValue + a * ProcessValue;
+            }
+            else
+            {
+                FilteredValue = ProcessValue;
+                started = true;
+            }
+            
+                       
 
             return FilteredValue;
         }
