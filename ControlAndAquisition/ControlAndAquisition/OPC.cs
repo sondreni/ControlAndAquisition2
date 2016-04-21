@@ -13,7 +13,7 @@ namespace ControlAndAquisition
         public string opcurlY = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.y";
         public string opcurlU = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.u";
         public string opcurlR = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.r";
-        public double opcR;
+       
 
         DataSocket dataSocketY = new DataSocket();
         DataSocket dataSocketU = new DataSocket();
@@ -50,8 +50,9 @@ namespace ControlAndAquisition
         public double opcGetRef() //Get reference value from OPC
         {
             //Read reference from OPC
-            opcR = Convert.ToDouble(dataSocketR.Data.Value);
-            return Convert.ToDouble(opcR);
+            dataSocketR.Update();
+            return Convert.ToDouble(dataSocketR.Data.Value);
+            
             //Ref has been read
         }
     }

@@ -21,7 +21,7 @@ namespace ControlAndAquisition
         Simulator Tempsimulator;
         OPC opc;
        
-        NIDAQ ReadY;
+        //NIDAQ ReadY;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
         double time = 0.0;
@@ -45,7 +45,7 @@ namespace ControlAndAquisition
             opc.opcConnectSockets();
 
 
-            ReadY = new NIDAQ();
+            //ReadY = new NIDAQ();
 
             chart1.Series.Clear();
             chart1.Series.Add("°C");
@@ -74,12 +74,11 @@ namespace ControlAndAquisition
             r = PI.r  = opc.opcGetRef();
             txtRefrence.Text = r.ToString();
             time = Math.Round(time, 1);
-            r = PI.r = Convert.ToDouble(txtRefrence.Text);
+            
             u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
             y = Tempsimulator.y;
             opc.opcSendData(y, u);
-            txtuu.Text = Convert.ToString(u);
-            txtYY.Text = Convert.ToString(y);
+            
             txtuu.Text = Convert.ToString(Math.Round(u, 1));
             txtYY.Text = Convert.ToString(Math.Round(y, 1));
             if (time > 60)
@@ -98,7 +97,7 @@ namespace ControlAndAquisition
         }
         private void Read()
         {
-            lblRead1.Text = Convert.ToString(ReadY.GetValue());
+            //lblRead1.Text = Convert.ToString(ReadY.GetValue());
         }
     }
 }
