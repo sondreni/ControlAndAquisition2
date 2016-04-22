@@ -11,52 +11,40 @@ namespace ControlAndAquisition
 {
     class OPC
     {
-        public string opcurlY = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.y";
-        public string opcurlU = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.u";
-        public string opcurlR = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.r";
-       
-
-        DataSocket dataSocketY = new DataSocket();
-        DataSocket dataSocketU = new DataSocket();
-        DataSocket dataSocketR = new DataSocket();
+        public string opcurl = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.";
+               
+        DataSocket dataSocket = new DataSocket();
         
-        //HJELP SONDRE
-
-        public void opcConnectSockets()
+        
+        public OPC(string tagID)
         {
-            if (dataSocketY.IsConnected)
-            { dataSocketY.Disconnect(); }
-            dataSocketY.Connect(opcurlY, AccessMode.Write);//Connect Y
+            opcurl = opcurl + tagID;
+            opcConnectSockets();
+        }
+        
 
-            if (dataSocketU.IsConnected)
-            { dataSocketU.Disconnect(); }
-            dataSocketU.Connect(opcurlU, AccessMode.Write);//Connect U
-
-            if (dataSocketR.IsConnected)
-            { dataSocketR.Disconnect(); }
-            dataSocketR.Connect(opcurlR, AccessMode.Read);//Connect R
+        private void opcConnectSockets()
+        {
+            if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
+            dataSocket.Connect(opcurl, AccessMode.Write);//Connect to OPC
+                        
         }
 
-        public void opcSendData(double opcY, double opcU)
+        public void Write(double value)
         {
-            //Send Y value to OPC
-            dataSocketY.Data.Value = opcY;
-            dataSocketY.Update();
-            //Y value sent
+            //Send value to OPC
+            dataSocket.Data.Value = value;
+            dataSocket.Update();
+            //value value sent
 
-            //Send U value to OPC
-            dataSocketU.Data.Value = opcU;
-            dataSocketU.Update();
-            //U value sent
         }
 
-        public double opcGetRef() //Get reference value from OPC
+        public double Read() //Get value from OPC
         {
-            //Read reference from OPC
-            dataSocketR.Update();
-            return Convert.ToDouble(dataSocketR.Data.Value);
+            //Read from OPC
+            dataSocket.Update();
+            return Convert.ToDouble(dataSocket.Data.Value);
             
-            //Ref has been read
         }
     }
 }
