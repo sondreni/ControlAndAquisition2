@@ -19,9 +19,9 @@ namespace ControlAndAquisition
     {
         PIController PI;
         Simulator Tempsimulator;
-        OPC opcR = new OPC(r);
-        OPC opcu = new OPC(u);
-        OPC opcy = new OPC(y);
+        OPC opcR = new OPC("r");
+        OPC opcu = new OPC("u");
+        OPC opcy = new OPC("y");
         LowPassFilter LPFilter;
        
         NIDAQ NIDAQRW;
@@ -33,11 +33,9 @@ namespace ControlAndAquisition
         double u=0;
         double FilteredY;
         double readV;
-
+        
         public Form1()
         {
-
-
             InitializeComponent();
             Tempsimulator = new Simulator(TimeStep);
             LPFilter = new LowPassFilter(TimeStep);
