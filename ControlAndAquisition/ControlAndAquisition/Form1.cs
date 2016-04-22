@@ -19,7 +19,9 @@ namespace ControlAndAquisition
     {
         PIController PI;
         Simulator Tempsimulator;
-        OPC opc;
+        OPC opcR = new OPC(r);
+        OPC opcu = new OPC(u);
+        OPC opcy = new OPC(y);
         LowPassFilter LPFilter;
        
         NIDAQ NIDAQRW;
@@ -45,8 +47,7 @@ namespace ControlAndAquisition
             aTimer.Enabled = true;
 
             PI = new PIController(TimeStep);
-            opc = new OPC();
-            opc.opcConnectSockets();
+            
 
 
             NIDAQRW = new NIDAQ();
@@ -70,8 +71,8 @@ namespace ControlAndAquisition
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
             time += TimeStep;
-            
-            r = PI.r  = opc.opcGetRef();
+
+            r = PI.r = opcR.Read();
             txtRefrence.Text = r.ToString();
             time = Math.Round(time, 1);
             
@@ -84,12 +85,12 @@ namespace ControlAndAquisition
             y = (readV-1)*50/4;
 
             FilteredY = LPFilter.FilterValue(y);
-            opc.opcSendData(FilteredY, u);
+            opcu.Write(u);
+            opcy.Write(FilteredY);
         
 
             u = PI.Compute(y);//using the the unfiltered value for control
             NIDAQRW.SetValue(u);
-
 
 
             //waste
