@@ -19,11 +19,16 @@ namespace ControlAndAquisition
     {
         PIController PI;
         Simulator Tempsimulator;
-        OPC opcR = new OPC(r);
-        OPC opcu = new OPC(u);
-        OPC opcy = new OPC(y);
+        OPC opcR = new OPC("r");
+        OPC opcu = new OPC("u");
+        OPC opcy = new OPC("y");
         LowPassFilter LPFilter;
-       
+        Alarm HHalarm = new Alarm("HH");
+        Alarm Halarm = new Alarm("H");
+        Alarm Lalarm = new Alarm("L");
+        Alarm LLalarm = new Alarm("LL");
+
+
         NIDAQ NIDAQRW;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
@@ -33,11 +38,9 @@ namespace ControlAndAquisition
         double u=0;
         double FilteredY;
         double readV;
-
+        
         public Form1()
         {
-
-
             InitializeComponent();
             Tempsimulator = new Simulator(TimeStep);
             LPFilter = new LowPassFilter(TimeStep);
@@ -87,7 +90,11 @@ namespace ControlAndAquisition
             FilteredY = LPFilter.FilterValue(y);
             opcu.Write(u);
             opcy.Write(FilteredY);
-        
+            HHalarm.IsAlarm(FilteredY);
+            Halarm.IsAlarm(FilteredY);
+            Lalarm.IsAlarm(FilteredY);
+            LLalarm.IsAlarm(FilteredY);
+
 
             u = PI.Compute(y);//using the the unfiltered value for control
             NIDAQRW.SetValue(u);
