@@ -23,7 +23,12 @@ namespace ControlAndAquisition
         OPC opcu = new OPC("u");
         OPC opcy = new OPC("y");
         LowPassFilter LPFilter;
-       
+        Alarm HHalarm = new Alarm("HH");
+        Alarm Halarm = new Alarm("H");
+        Alarm Lalarm = new Alarm("L");
+        Alarm LLalarm = new Alarm("LL");
+
+
         NIDAQ NIDAQRW;
         System.Timers.Timer aTimer;
         double TimeStep = 0.1;
@@ -85,7 +90,11 @@ namespace ControlAndAquisition
             FilteredY = LPFilter.FilterValue(y);
             opcu.Write(u);
             opcy.Write(FilteredY);
-        
+            HHalarm.IsAlarm(FilteredY);
+            Halarm.IsAlarm(FilteredY);
+            Lalarm.IsAlarm(FilteredY);
+            LLalarm.IsAlarm(FilteredY);
+
 
             u = PI.Compute(y);//using the the unfiltered value for control
             NIDAQRW.SetValue(u);
