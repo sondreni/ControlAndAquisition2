@@ -44,10 +44,7 @@ namespace ControlAndAquisition
             InitializeComponent();
             Tempsimulator = new Simulator(TimeStep);
             LPFilter = new LowPassFilter(TimeStep);
-            System.Timers.Timer aTimer = new System.Timers.Timer(TimeStep * 1000);
-            aTimer.Elapsed += OnTimedEvent;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
+            
 
             PI = new PIController(TimeStep);
             

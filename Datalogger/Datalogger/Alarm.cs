@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace Datalogger
+{
+    class Alarm
+    {
+        public string Tag { get; set; }
+        public string Time { get; set; }
+        public bool Active { get; set; }
+        public string AlarmText { get; set; }
+
+        public List<Alarm> GetAlarms(string connectionString)
+        {
+            List<Alarm> AlarmList = new List<Alarm>();
+            SqlConnection sqlConnection1 = new SqlConnection();
+            sqlConnection1.ConnectionString = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
+            SqlCommand cmd = new SqlCommand();
+
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr != null)
+            {
+                while (dr.Read())
+                {
+                    Alarm alarm = new Alarm();
+                    alarm.Tag = Convert.ToString(dr["AlarmTag"]);
+                    alarm.Time = Convert.ToString(dr["Time"]);
+                    alarm.Active = Convert.ToBoolean(dr["Active"]);
+                    alarm.AlarmText = dr["AlarmText"].ToString();
+                    AlarmList.Add(alarm);
+                }
+            }
+
+            sqlConnection1.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection1.Close();
+
+            return AlarmList;
+        }
+
+
+
+
+    }
+}
