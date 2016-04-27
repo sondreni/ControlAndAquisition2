@@ -22,6 +22,7 @@ namespace Datalogger
         OPC yOPC;
         OPC rOPC;
         SqlConnection sqlConnection1 = new SqlConnection();
+        string SQLConnectionString= "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
 
 
         public Form1()
@@ -32,7 +33,7 @@ namespace Datalogger
             rOPC = new OPC("r");
 
             trmUpdate.Enabled = true;
-            sqlConnection1.ConnectionString = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
+            sqlConnection1.ConnectionString = SQLConnectionString;
 
         }
 

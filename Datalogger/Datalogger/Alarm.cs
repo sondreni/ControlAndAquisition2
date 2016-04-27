@@ -18,8 +18,10 @@ namespace Datalogger
         {
             List<Alarm> AlarmList = new List<Alarm>();
             SqlConnection sqlConnection1 = new SqlConnection();
-            sqlConnection1.ConnectionString = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
-            SqlCommand cmd = new SqlCommand();
+            sqlConnection1.ConnectionString = connectionString;
+            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY ORDER BY Time DESC";
+
+            SqlCommand cmd = new SqlCommand(selectSQL, sqlConnection1);
 
 
             SqlDataReader dr = cmd.ExecuteReader();
