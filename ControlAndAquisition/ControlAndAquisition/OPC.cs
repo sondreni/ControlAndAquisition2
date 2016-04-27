@@ -19,20 +19,41 @@ namespace ControlAndAquisition
         public OPC(string tagID)
         {
             opcurl = opcurl + tagID;
-            opcConnectSockets();
+            opcReadConnectSockets();
+        }
+        public OPC(string tagID, bool write)
+        {
+            opcurl = opcurl + tagID;
+            if (write)
+            {
+                opcWriteConnectSockets();
+            }
+            else
+            {
+                opcReadConnectSockets();
+            }
+
+            
         }
         
-
-        private void opcConnectSockets()
+        public void opcWriteConnectSockets()
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Write);//Connect to OPC
+        }
+
+
+        public void opcReadConnectSockets()
+        {
+            if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
+            dataSocket.Connect(opcurl, AccessMode.Read);//Connect to OPC
                         
         }
 
         public void Write(double value)
         {
             //Send value to OPC
+            
             dataSocket.Data.Value = value;
             dataSocket.Update();
             //value value sent
@@ -42,9 +63,11 @@ namespace ControlAndAquisition
         public double Read() //Get value from OPC
         {
             //Read from OPC
+            dataSocket.AccessMode.GetType();
             dataSocket.Update();
             return Convert.ToDouble(dataSocket.Data.Value);
             
+
         }
     }
 }

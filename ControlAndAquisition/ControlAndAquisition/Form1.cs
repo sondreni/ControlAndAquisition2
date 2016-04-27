@@ -20,8 +20,8 @@ namespace ControlAndAquisition
         PIController PI;
         Simulator Tempsimulator;
         OPC opcR = new OPC("r");
-        OPC opcu = new OPC("u");
-        OPC opcy = new OPC("y");
+        OPC opcu = new OPC("u", true);
+        OPC opcy = new OPC("y",true);
         LowPassFilter LPFilter;
         Alarm HHalarm = new Alarm("HH");
         Alarm Halarm = new Alarm("H");
@@ -86,8 +86,14 @@ namespace ControlAndAquisition
             readV = Math.Round(NIDAQRW.GetValue(),4);
             lblRead2.Text = readV.ToString();
             y = (readV-1)*50/4;
-
             FilteredY = LPFilter.FilterValue(y);
+
+
+            u = PI.Compute(FilteredY);//using the the unfiltered value for control
+            NIDAQRW.SetValue(u);
+
+
+            
             opcu.Write(u);
             opcy.Write(FilteredY);
             HHalarm.IsAlarm(FilteredY);
@@ -96,8 +102,7 @@ namespace ControlAndAquisition
             LLalarm.IsAlarm(FilteredY);
 
 
-            u = PI.Compute(y);//using the the unfiltered value for control
-            NIDAQRW.SetValue(u);
+            
 
 
             //waste

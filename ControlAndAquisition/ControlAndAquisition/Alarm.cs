@@ -15,7 +15,7 @@ namespace ControlAndAquisition
         public Alarm(string AlarmType)
         {
             _AlarmType = AlarmType;
-            ALRM = new OPC(AlarmType);
+            ALRM = new OPC(AlarmType,true);
             ALRMLim = new OPC(AlarmType+"Lim");
         }
         
@@ -29,6 +29,7 @@ namespace ControlAndAquisition
                     {
                         ALRM.Write(1);
                     }
+                    else { ALRM.Write(0); }
                     break;
 
                 case "H":
@@ -36,6 +37,7 @@ namespace ControlAndAquisition
                     {
                         ALRM.Write(1);
                     }
+                    else { ALRM.Write(0); }
                     break;
 
                 case "LL":
@@ -43,13 +45,15 @@ namespace ControlAndAquisition
                     {
                         ALRM.Write(1);
                     }
+                    else { ALRM.Write(0); }
                     break;
 
                 case "L":
-                    if (Value < ALRMLim.Read()) ;
+                    if (Value < ALRMLim.Read()) 
                     {
                         ALRM.Write(1);
                     }
+                    else { ALRM.Write(0); }
                     break;
 
             }
