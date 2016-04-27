@@ -69,7 +69,14 @@ namespace Datalogger
         }
 
 
+        private void FillAlarms()
+        {
+            List<Alarm> AlarmList = new List<Alarm>();
+            Alarm alarm = new Alarm();
 
+            AlarmList = alarm.GetAlarms(SQLConnectionString);
+            gridAlarms.DataSource = AlarmList;
+        }
  
 
         private void button1_Click(object sender, EventArgs e)
@@ -81,7 +88,7 @@ namespace Datalogger
 
         private void trmUpdate_Tick(object sender, EventArgs e)
         {
-
+            FillAlarms();
         }
     }
 }
