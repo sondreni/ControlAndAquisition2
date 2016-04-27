@@ -27,7 +27,7 @@ namespace ControlAndAquisition
         {
             Task analogOutTask = new Task();
             AOChannel myAOChannel;
-            myAOChannel = analogOutTask.AOChannels.CreateVoltageChannel("dev31/ao0", "myAOChannel",0,5,AOVoltageUnits.Volts);
+            myAOChannel = analogOutTask.AOChannels.CreateVoltageChannel("dev31/ao0","myAOChannel",0,5,AOVoltageUnits.Volts);
             AnalogSingleChannelWriter writer = new
             AnalogSingleChannelWriter(analogOutTask.Stream);
                         
