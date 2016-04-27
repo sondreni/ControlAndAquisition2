@@ -18,7 +18,7 @@ namespace ControlAndAquisition
         {
             Task analogInTask = new Task();
             AIChannel myAIChannel;
-            myAIChannel = analogInTask.AIChannels.CreateVoltageChannel("dev1/ai0", "myAIChannel", AITerminalConfiguration.Rse, 0, 5, AIVoltageUnits.Volts);
+            myAIChannel = analogInTask.AIChannels.CreateVoltageChannel("dev31/ai0", "myAIChannel", AITerminalConfiguration.Rse, 0, 5, AIVoltageUnits.Volts);
             AnalogSingleChannelReader reader = new AnalogSingleChannelReader(analogInTask.Stream);
             double analogDataIn = reader.ReadSingleSample();
             return analogDataIn;
@@ -27,7 +27,7 @@ namespace ControlAndAquisition
         {
             Task analogOutTask = new Task();
             AOChannel myAOChannel;
-            myAOChannel = analogOutTask.AOChannels.CreateVoltageChannel("dev1/ao0","myAOChannel",0,5,AOVoltageUnits.Volts);
+            myAOChannel = analogOutTask.AOChannels.CreateVoltageChannel("dev31/ao0", "myAOChannel",0,5,AOVoltageUnits.Volts);
             AnalogSingleChannelWriter writer = new
             AnalogSingleChannelWriter(analogOutTask.Stream);
                         
