@@ -19,8 +19,8 @@ namespace Datalogger
             List<Alarm> AlarmList = new List<Alarm>();
             SqlConnection sqlConnection1 = new SqlConnection();
             sqlConnection1.ConnectionString = connectionString;
-            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY ORDER BY Time DESC";
-
+            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY  WHERE Active = 1 ORDER BY Time DESC";
+            // ORDER BY Time DESC
 
             sqlConnection1.Open();
             SqlCommand cmd = new SqlCommand(selectSQL, sqlConnection1);
