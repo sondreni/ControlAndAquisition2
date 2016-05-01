@@ -15,6 +15,7 @@ namespace ControlAndAquisition
                
         DataSocket dataSocket = new DataSocket();
         bool _Write=false;
+        double _value;
         
         public OPC(string tagID)
         {
@@ -65,18 +66,27 @@ namespace ControlAndAquisition
         {
             if (_Write)
             {
+
                 opcReadConnectSockets();
+
+                dataSocket.AccessMode.GetType();
+                dataSocket.Update();
+                _value =Convert.ToDouble(dataSocket.Data.Value);
+
+                opcWriteConnectSockets();
+
+                return _value;
+            }
+            else
+            {
+                dataSocket.AccessMode.GetType();
+                dataSocket.Update();
+                return Convert.ToDouble(dataSocket.Data.Value);
             }
             //Read from OPC
-            dataSocket.AccessMode.GetType();
-            dataSocket.Update();
-            return Convert.ToDouble(dataSocket.Data.Value);
-
-            if (_Write)
-            {
-                opcWriteConnectSockets();
-            }
             
+
+           
 
         }
     }

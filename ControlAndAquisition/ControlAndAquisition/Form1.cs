@@ -38,6 +38,12 @@ namespace ControlAndAquisition
         double u=0;
         double FilteredY;
         double readV;
+
+
+        //Testing
+        AnalogTransmitter TT01 = new AnalogTransmitter("TT01");
+
+        //Test End
         
         public Form1()
         {
