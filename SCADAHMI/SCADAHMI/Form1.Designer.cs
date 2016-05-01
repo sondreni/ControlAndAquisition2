@@ -33,7 +33,6 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtValueTemp = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStartHMI = new System.Windows.Forms.Button();
             this.btnAckHHAlrm = new System.Windows.Forms.Button();
@@ -56,6 +55,11 @@
             this.txtHHLim = new System.Windows.Forms.TextBox();
             this.tmrHMI = new System.Windows.Forms.Timer(this.components);
             this.btnUpdateLim = new System.Windows.Forms.Button();
+            this.txtUpdateSetPoint = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnUpdateSetPoint = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -63,42 +67,37 @@
             // 
             // chart1
             // 
+            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.chart1.BorderlineColor = System.Drawing.Color.WhiteSmoke;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Location = new System.Drawing.Point(12, 154);
             this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(487, 291);
+            this.chart1.Size = new System.Drawing.Size(677, 291);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
             // txtValueTemp
             // 
-            this.txtValueTemp.Location = new System.Drawing.Point(13, 128);
+            this.txtValueTemp.AcceptsReturn = true;
+            this.txtValueTemp.Location = new System.Drawing.Point(171, 128);
             this.txtValueTemp.Name = "txtValueTemp";
             this.txtValueTemp.Size = new System.Drawing.Size(50, 20);
             this.txtValueTemp.TabIndex = 2;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 112);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Value";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(69, 131);
+            this.label2.Location = new System.Drawing.Point(227, 131);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 13);
+            this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "°C";
+            this.label2.Text = "°C Process Value";
             // 
             // btnStartHMI
             // 
@@ -130,7 +129,7 @@
             this.groupBox1.Controls.Add(this.btnAckLAlrm);
             this.groupBox1.Controls.Add(this.btnAckHAlrm);
             this.groupBox1.Controls.Add(this.btnAckHHAlrm);
-            this.groupBox1.Location = new System.Drawing.Point(311, 13);
+            this.groupBox1.Location = new System.Drawing.Point(504, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(188, 135);
             this.groupBox1.TabIndex = 8;
@@ -218,7 +217,7 @@
             this.groupBox2.Controls.Add(this.txtLLim);
             this.groupBox2.Controls.Add(this.txtHLim);
             this.groupBox2.Controls.Add(this.txtHHLim);
-            this.groupBox2.Location = new System.Drawing.Point(129, 13);
+            this.groupBox2.Location = new System.Drawing.Point(322, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(176, 135);
             this.groupBox2.TabIndex = 9;
@@ -267,6 +266,7 @@
             this.txtLLLim.Name = "txtLLLim";
             this.txtLLLim.Size = new System.Drawing.Size(56, 20);
             this.txtLLLim.TabIndex = 3;
+            this.txtLLLim.Text = "20";
             // 
             // txtLLim
             // 
@@ -274,6 +274,7 @@
             this.txtLLim.Name = "txtLLim";
             this.txtLLim.Size = new System.Drawing.Size(56, 20);
             this.txtLLim.TabIndex = 2;
+            this.txtLLim.Text = "22";
             // 
             // txtHLim
             // 
@@ -281,6 +282,7 @@
             this.txtHLim.Name = "txtHLim";
             this.txtHLim.Size = new System.Drawing.Size(56, 20);
             this.txtHLim.TabIndex = 1;
+            this.txtHLim.Text = "28";
             // 
             // txtHHLim
             // 
@@ -289,7 +291,7 @@
             this.txtHHLim.Name = "txtHHLim";
             this.txtHHLim.Size = new System.Drawing.Size(56, 20);
             this.txtHHLim.TabIndex = 0;
-            this.txtHHLim.TextChanged += new System.EventHandler(this.txtHHLim_TextChanged);
+            this.txtHHLim.Text = "30";
             // 
             // tmrHMI
             // 
@@ -298,23 +300,71 @@
             // 
             // btnUpdateLim
             // 
-            this.btnUpdateLim.Location = new System.Drawing.Point(12, 42);
+            this.btnUpdateLim.Location = new System.Drawing.Point(101, 13);
             this.btnUpdateLim.Name = "btnUpdateLim";
             this.btnUpdateLim.Size = new System.Drawing.Size(83, 23);
             this.btnUpdateLim.TabIndex = 14;
             this.btnUpdateLim.Text = "Update Limits";
             this.btnUpdateLim.UseVisualStyleBackColor = true;
+            this.btnUpdateLim.Click += new System.EventHandler(this.btnUpdateLim_Click);
+            // 
+            // txtUpdateSetPoint
+            // 
+            this.txtUpdateSetPoint.Location = new System.Drawing.Point(12, 128);
+            this.txtUpdateSetPoint.Name = "txtUpdateSetPoint";
+            this.txtUpdateSetPoint.Size = new System.Drawing.Size(69, 20);
+            this.txtUpdateSetPoint.TabIndex = 15;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(87, 131);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(64, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "ºC Set Point";
+            // 
+            // btnUpdateSetPoint
+            // 
+            this.btnUpdateSetPoint.Location = new System.Drawing.Point(12, 85);
+            this.btnUpdateSetPoint.Name = "btnUpdateSetPoint";
+            this.btnUpdateSetPoint.Size = new System.Drawing.Size(69, 37);
+            this.btnUpdateSetPoint.TabIndex = 17;
+            this.btnUpdateSetPoint.Text = "Update Set Point";
+            this.btnUpdateSetPoint.UseVisualStyleBackColor = true;
+            this.btnUpdateSetPoint.Click += new System.EventHandler(this.btnUpdateSetPoint_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.AcceptsReturn = true;
+            this.textBox1.Location = new System.Drawing.Point(13, 58);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(208, 20);
+            this.textBox1.TabIndex = 18;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(227, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "°C Process Value";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 452);
+            this.ClientSize = new System.Drawing.Size(704, 452);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnUpdateSetPoint);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.txtUpdateSetPoint);
             this.Controls.Add(this.btnUpdateLim);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnStartHMI);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtValueTemp);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox1);
@@ -336,7 +386,6 @@
         private System.Windows.Forms.Button btnStartHMI;
         private System.Windows.Forms.Button btnAckHHAlrm;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtValueTemp;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.CheckBox chkLLActive;
@@ -357,6 +406,11 @@
         private System.Windows.Forms.TextBox txtHHLim;
         private System.Windows.Forms.Timer tmrHMI;
         private System.Windows.Forms.Button btnUpdateLim;
+        private System.Windows.Forms.TextBox txtUpdateSetPoint;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnUpdateSetPoint;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 
