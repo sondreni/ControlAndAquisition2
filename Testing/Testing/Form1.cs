@@ -40,8 +40,7 @@ namespace Testing
         {
             TT01.Update(Airheater.y);
             PI.r = OPC_r.Read();
-            PI.Compute(TT01.PV);
-            Airheater.u = PI.U;
+            Airheater.u = PI.Compute(TT01.PV);
             OPC_u.Write(PI.U);
 
         }

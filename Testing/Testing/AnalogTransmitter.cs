@@ -16,43 +16,41 @@ namespace ControlAndAquisition
         private OPC[] AlarmLim;
         private double HYS = 1;
         private NIDAQ Read;
+        LowPassFilter Filter;
+
 
         public AnalogTransmitter(string TagID)
-        {
-            Start(TagID);
-            
-        }
-        public AnalogTransmitter(string TagID, string NIDAQConnect)
-        {
-
-            Start(TagID);
-            Read = new NIDAQ(NIDAQConnect);
-
-        }
-        private void Start(string TagID)
         {
             TAG = TagID;
             OPC_PV = new OPC(TagID + "_PV", true);
             Alarm = new OPC[Alarms.Length];
             AlarmLim = new OPC[Alarms.Length];
+            Filter = new LowPassFilter(1);
 
             for (int i = 0; i < Alarms.Length; i++)
             {
                 Alarm[i] = new OPC(TAG + "_" + Alarms[i], true);
                 AlarmLim[i] = new OPC(TAG + "_" + Alarms[i] + "_Lim");
             }
-
+            
+            
         }
+        public AnalogTransmitter(string TagID, string NIDAQConnect) : this(TagID)
+        {
+            Read = new NIDAQ(NIDAQConnect);
+        }
+       
         
         public void Update()
         {
-            _PV = Read.Value;
+            _PV = Filter.FilterValue(Read.Value);
+            
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
         public void Update(Double NewPV)
         {
-            _PV = NewPV;
+            _PV = Filter.FilterValue(NewPV);
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
