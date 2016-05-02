@@ -35,9 +35,9 @@ namespace ControlAndAquisition
 
 
         }
-        public AnalogTransmitter(string TagID, string NIDAQConnect) : this(TagID)
+        public AnalogTransmitter(string TagID, string NIDAQConnect_PV) : this(TagID)
         {
-            Read = new NIDAQ(NIDAQConnect);
+            Read = new NIDAQ(NIDAQConnect_PV);
         }
 
 
