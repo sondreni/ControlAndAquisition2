@@ -19,13 +19,13 @@ namespace ControlAndAquisition
         LowPassFilter Filter;
 
 
-        public AnalogTransmitter(string TagID)
+        public AnalogTransmitter(string TagID, double Timestep)
         {
             TAG = TagID;
             OPC_PV = new OPC(TagID + "_PV", true);
             Alarm = new OPC[Alarms.Length];
             AlarmLim = new OPC[Alarms.Length];
-            Filter = new LowPassFilter(1);
+            Filter = new LowPassFilter(Timestep);
 
             for (int i = 0; i < Alarms.Length; i++)
             {
@@ -35,7 +35,7 @@ namespace ControlAndAquisition
 
 
         }
-        public AnalogTransmitter(string TagID, string NIDAQConnect_PV) : this(TagID)
+        public AnalogTransmitter(string TagID, string NIDAQConnect_PV,double Timestep) : this(TagID,Timestep)
         {
             Read = new NIDAQ(NIDAQConnect_PV);
         }

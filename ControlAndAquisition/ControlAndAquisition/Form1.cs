@@ -18,81 +18,78 @@ namespace ControlAndAquisition
     public partial class Form1 : Form
     {
         AnalogTransmitter TT01;
-        Simulator Airheater;
+        Simulator SimAirheater;
         PIController PI;
-        OPC OPC_r;
-        OPC OPC_u;
-        
-        
+        FUJIPID FU;
+
+        bool RealAirheater=false;
+        bool Fuji=false;
+
+        string NIDAQDev = "dev31/";
+
         double TimeStep = 1;
-        double time = 0.0;
-        double r=0;
-        double y=0;
-        double u=0;
-        
-        
-        
+            
+                
         public Form1()
         {
             InitializeComponent();
-            TT01 = new AnalogTransmitter("TT01");
-            Airheater = new Simulator(0.1);
+
+
+            if (RealAirheater && Fuji)
+            {
+                FU = new FUJIPID("PID01", NIDAQDev+"ai1", NIDAQDev+"ai0", NIDAQDev + "ao0");
+                TT01 = new AnalogTransmitter("TT01", TimeStep);
+
+            }
+            else if(RealAirheater)
+            {
+                PI = new PIController(TimeStep, "TT01", NIDAQDev + "ai0", NIDAQDev + "ao0");
+                TT01 = new AnalogTransmitter("TT01", TimeStep);
+
+            }
+            else if (Fuji)
+            {
+                SimAirheater = new Simulator(0.1);
+                FU = new FUJIPID("PID01", NIDAQDev + "ai1", NIDAQDev + "ao0");
+            }
+            else
+            {                
+                TT01 = new AnalogTransmitter("TT01", TimeStep);
+                SimAirheater = new Simulator(0.1);
+                PI = new PIController(TimeStep, "PID01");
+            }
+            
+            
+            tmrLoop.Interval = Convert.ToInt16(TimeStep * 1000);
             tmrLoop.Enabled = true;
-            PI = new PIController(TimeStep);
-            OPC_r = new OPC("r");
-            OPC_u = new OPC("u", true);
-
-
             
             
-
-            chart1.Series.Clear();
-            chart1.Series.Add("°C");
-            chart1.Series["°C"].ChartType = SeriesChartType.Line;
-            chart1.Series.Add("u");
-            chart1.Series["u"].ChartType = SeriesChartType.Line;
-            chart1.Series.Add("r");
-            chart1.Series["r"].ChartType = SeriesChartType.Line;
-
         }
 
         
-
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
-            time += TimeStep;
-
-            TT01.Update(Airheater.y);
-            y = TT01.PV;
-            r= PI.r = OPC_r.Read();
-            Airheater.u = PI.Compute(TT01.PV);
-            OPC_u.Write(PI.U);
-            u = PI.U;
-
-            
-            txtRefrence.Text = r.ToString();
-            time = Math.Round(time, 1);
-            
-            //y = Tempsimulator.y;
-            //u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
-
             
             
-            txtuu.Text = Convert.ToString(Math.Round(u, 1));
-            txtYY.Text = Convert.ToString(Math.Round(y, 1));
-            if (time > 60)
+            if (RealAirheater && Fuji)
             {
-                chart1.Series["u"].Points.RemoveAt(0);
-                chart1.Series["°C"].Points.RemoveAt(0);
-                chart1.Series["r"].Points.RemoveAt(0);
-            } 
-
-            chart1.Series["u"].Points.AddXY(time, u);
-            chart1.Series["°C"].Points.AddXY(time, y);
-            chart1.Series["r"].Points.AddXY(time, r);
-            chart1.ResetAutoValues();
-
-            
+                FU.Update();
+                TT01.Update();
+            }
+            else if (RealAirheater)
+            {
+                TT01.Update();
+                PI.Compute();
+            }
+            else if (Fuji)
+            {
+                SimAirheater.u= FU.Update(SimAirheater.y);
+            }
+            else
+            {
+                TT01.Update(SimAirheater.y);
+                SimAirheater.u = PI.Compute(TT01.PV);
+            }
 
         }
         

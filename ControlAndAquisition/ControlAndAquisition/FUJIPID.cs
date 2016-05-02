@@ -16,20 +16,20 @@ namespace ControlAndAquisition
         NIDAQ NI_PV;
         
         
-        public FUJIPID(string OPCTag, string NIDAQConnect_U, string NIDAQConnect_R) 
+        public FUJIPID(string OPCTag, string NIDAQConnect_U, string NIDAQConnect_PV) 
         {
             
-            OPC_R = new OPC(OPCTag + "_R");
+            
             OPC_U = new OPC(OPCTag + "_U", true);
 
             NI_U = new NIDAQ(NIDAQConnect_U);
-            NI_R = new NIDAQ(NIDAQConnect_R);
+            NI_PV = new NIDAQ(NIDAQConnect_PV);
 
         }
 
-        public FUJIPID(string OPCTag, string NIDAQConnect_U, string NIDAQConnect_R,string NIDAQConnect_PV) : this(OPCTag, NIDAQConnect_U, NIDAQConnect_R)
+        public FUJIPID(string OPCTag, string NIDAQConnect_U, string NIDAQConnect_PV,string NIDAQConnect_R) : this(OPCTag, NIDAQConnect_U, NIDAQConnect_PV)
         {
-            NI_PV = new NIDAQ(NIDAQConnect_PV);
+            NI_R = new NIDAQ(NIDAQConnect_R);
         }
 
         public void Update()
@@ -38,11 +38,12 @@ namespace ControlAndAquisition
             OPC_U.Write(NI_U.Value);
 
         }
-        public void Update(double PV)
+        public double Update(double PV)
         {
             NI_PV.Value = ((PV*4/50)+1);
-            Update();
-
+            PV = NI_U.Value;
+            OPC_U.Write(PV);
+            return PV;
         }
     }
 }
