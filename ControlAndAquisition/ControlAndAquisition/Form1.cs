@@ -38,19 +38,20 @@ namespace ControlAndAquisition
             if (RealAirheater && Fuji)
             {
                 FU = new FUJIPID("PID01", NIDAQDev+"ai1", NIDAQDev+"ai0", NIDAQDev + "ao0");
-                TT01 = new AnalogTransmitter("TT01", TimeStep);
+                TT01 = new AnalogTransmitter("TT01", NIDAQDev + "ai0", TimeStep);
 
             }
             else if(RealAirheater)
             {
-                PI = new PIController(TimeStep, "TT01", NIDAQDev + "ai0", NIDAQDev + "ao0");
-                TT01 = new AnalogTransmitter("TT01", TimeStep);
+                PI = new PIController(TimeStep, "PID01", NIDAQDev + "ai0", NIDAQDev + "ao0");
+                TT01 = new AnalogTransmitter("TT01", NIDAQDev + "ai0", TimeStep);
 
             }
             else if (Fuji)
             {
                 SimAirheater = new Simulator(0.1);
                 FU = new FUJIPID("PID01", NIDAQDev + "ai1", NIDAQDev + "ao0");
+                TT01 = new AnalogTransmitter("TT01", NIDAQDev + "ao0",TimeStep,true);
             }
             else
             {                
@@ -83,7 +84,9 @@ namespace ControlAndAquisition
             }
             else if (Fuji)
             {
-                SimAirheater.u= FU.Update(SimAirheater.y);
+                TT01.Update(SimAirheater.y,true);
+                SimAirheater.u= FU.Update(TT01.PV);
+                
             }
             else
             {

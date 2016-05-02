@@ -16,6 +16,7 @@ namespace ControlAndAquisition
         private OPC[] AlarmLim;
         private double HYS = 1;
         private NIDAQ Read;
+        private NIDAQ Write;
         LowPassFilter Filter;
 
 
@@ -26,6 +27,7 @@ namespace ControlAndAquisition
             Alarm = new OPC[Alarms.Length];
             AlarmLim = new OPC[Alarms.Length];
             Filter = new LowPassFilter(Timestep);
+            
 
             for (int i = 0; i < Alarms.Length; i++)
             {
@@ -38,8 +40,12 @@ namespace ControlAndAquisition
         public AnalogTransmitter(string TagID, string NIDAQConnect_PV,double Timestep) : this(TagID,Timestep)
         {
             Read = new NIDAQ(NIDAQConnect_PV);
+            
         }
-
+        public AnalogTransmitter(string TagID, string NIDAQConnect_PV, double Timestep,bool write) : this(TagID,Timestep)
+        {
+            Write = new NIDAQ(NIDAQConnect_PV);
+        }
 
         public void Update()
         {
@@ -48,11 +54,16 @@ namespace ControlAndAquisition
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
-        public void Update(Double NewPV)
+        public void Update(double NewPV)
         {
             _PV = Filter.FilterValue(NewPV);
             UpdateAlarms();
             OPC_PV.Write(_PV);
+        }
+        public void Update(double NewPV, bool write)
+        {
+            Write.Value = ((NewPV*4/50)+1);
+            Update(NewPV);
         }
         public double PV
         {

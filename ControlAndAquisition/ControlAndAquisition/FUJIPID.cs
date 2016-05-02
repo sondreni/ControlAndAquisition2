@@ -21,6 +21,7 @@ namespace ControlAndAquisition
             
             
             OPC_U = new OPC(OPCTag + "_U", true);
+            OPC_R = new OPC(OPCTag + "_R");
 
             NI_U = new NIDAQ(NIDAQConnect_U);
             NI_PV = new NIDAQ(NIDAQConnect_PV);
@@ -34,7 +35,7 @@ namespace ControlAndAquisition
 
         public void Update()
         {
-            NI_R.Value= OPC_R.Read();
+            NI_R.Value= (OPC_R.Read()*4/50+1);
             OPC_U.Write(NI_U.Value);
 
         }

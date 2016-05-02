@@ -47,9 +47,9 @@ namespace ControlAndAquisition
         }
         public double Compute()
         {
-            PV = NI_PV.Value;
+            PV = ((NI_PV.Value - 1)*50 / 4);
             U = Compute(PV);
-            NI_U.SetValue(U);
+            NI_U.Value=U;
             return U;
         }
         public double Compute(double PV)
