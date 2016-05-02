@@ -84,6 +84,7 @@
             // tmrLoop
             // 
             this.tmrLoop.Enabled = true;
+            this.tmrLoop.Interval = 1000;
             this.tmrLoop.Tick += new System.EventHandler(this.tmrLoop_Tick);
             // 
             // lblRead1

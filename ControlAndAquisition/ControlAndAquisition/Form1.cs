@@ -17,46 +17,34 @@ namespace ControlAndAquisition
 {
     public partial class Form1 : Form
     {
+        AnalogTransmitter TT01;
+        Simulator Airheater;
         PIController PI;
-        Simulator Tempsimulator;
-        OPC opcR = new OPC("r");
-        OPC opcu = new OPC("u", true);
-        OPC opcy = new OPC("y",true);
-        LowPassFilter LPFilter;
-        Alarm HHalarm = new Alarm("HH");
-        Alarm Halarm = new Alarm("H");
-        Alarm Lalarm = new Alarm("L");
-        Alarm LLalarm = new Alarm("LL");
-
-
-        NIDAQ NIDAQRW;
-        System.Timers.Timer aTimer;
-        double TimeStep = 0.1;
+        OPC OPC_r;
+        OPC OPC_u;
+        
+        
+        double TimeStep = 1;
         double time = 0.0;
         double r=0;
         double y=0;
         double u=0;
-        double FilteredY;
-        double readV;
-
-
-        //Testing
-        AnalogTransmitter TT01 = new AnalogTransmitter("TT01");
-
-        //Test End
+        
+        
         
         public Form1()
         {
             InitializeComponent();
-            Tempsimulator = new Simulator(TimeStep);
-            LPFilter = new LowPassFilter(TimeStep);
-            
-
+            TT01 = new AnalogTransmitter("TT01");
+            Airheater = new Simulator(0.1);
+            tmrLoop.Enabled = true;
             PI = new PIController(TimeStep);
+            OPC_r = new OPC("r");
+            OPC_u = new OPC("u", true);
+
+
             
-
-
-            NIDAQRW = new NIDAQ();
+            
 
             chart1.Series.Clear();
             chart1.Series.Add("°C");
@@ -68,50 +56,26 @@ namespace ControlAndAquisition
 
         }
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
-        {
-            
-
-        }
+        
 
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
             time += TimeStep;
 
-            r = PI.r = opcR.Read();
+            TT01.Update(Airheater.y);
+            y = TT01.PV;
+            r= PI.r = OPC_r.Read();
+            Airheater.u = PI.Compute(TT01.PV);
+            OPC_u.Write(PI.U);
+            u = PI.U;
+
+            
             txtRefrence.Text = r.ToString();
             time = Math.Round(time, 1);
             
             //y = Tempsimulator.y;
             //u = Tempsimulator.u = PI.Compute(Tempsimulator.y);
 
-
-            readV = Math.Round(NIDAQRW.GetValue(),4);
-            lblRead2.Text = readV.ToString();
-            y = (readV-1)*50/4;
-            FilteredY = LPFilter.FilterValue(y);
-
-
-            u = PI.Compute(FilteredY);//using the the unfiltered value for control
-            NIDAQRW.SetValue(u);
-
-
-            
-            opcu.Write(u);
-            opcy.Write(FilteredY);
-            HHalarm.IsAlarm(FilteredY);
-            Halarm.IsAlarm(FilteredY);
-            Lalarm.IsAlarm(FilteredY);
-            LLalarm.IsAlarm(FilteredY);
-
-
-            
-
-
-            //waste
-            lblRead1.Text = FilteredY.ToString();
-
-            //
             
             
             txtuu.Text = Convert.ToString(Math.Round(u, 1));
@@ -124,17 +88,13 @@ namespace ControlAndAquisition
             } 
 
             chart1.Series["u"].Points.AddXY(time, u);
-            chart1.Series["°C"].Points.AddXY(time, FilteredY);
+            chart1.Series["°C"].Points.AddXY(time, y);
             chart1.Series["r"].Points.AddXY(time, r);
             chart1.ResetAutoValues();
 
-            //Read();
+            
 
         }
-        private void Read()
-        {
-            NIDAQRW.SetValue(Tempsimulator.u);
-            lblRead1.Text = Convert.ToString(NIDAQRW.GetValue());
-        }
+        
     }
 }

@@ -12,10 +12,11 @@ namespace ControlAndAquisition
     class OPC
     {
         public string opcurl = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.";
-               
+
         DataSocket dataSocket = new DataSocket();
-        bool _Write=false;
-        
+        bool _Write = false;
+        double _value;
+
         public OPC(string tagID)
         {
             opcurl = opcurl + tagID;
@@ -34,9 +35,9 @@ namespace ControlAndAquisition
                 opcReadConnectSockets();
             }
 
-            
+
         }
-        
+
         public void opcWriteConnectSockets()
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
@@ -48,13 +49,13 @@ namespace ControlAndAquisition
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Read);//Connect to OPC
-                        
+
         }
 
         public void Write(double value)
         {
             //Send value to OPC
-            
+
             dataSocket.Data.Value = value;
             dataSocket.Update();
             //value value sent
@@ -65,18 +66,27 @@ namespace ControlAndAquisition
         {
             if (_Write)
             {
+
                 opcReadConnectSockets();
+
+                dataSocket.AccessMode.GetType();
+                dataSocket.Update();
+                _value = Convert.ToDouble(dataSocket.Data.Value);
+
+                opcWriteConnectSockets();
+
+                return _value;
+            }
+            else
+            {
+                dataSocket.AccessMode.GetType();
+                dataSocket.Update();
+                return Convert.ToDouble(dataSocket.Data.Value);
             }
             //Read from OPC
-            dataSocket.AccessMode.GetType();
-            dataSocket.Update();
-            return Convert.ToDouble(dataSocket.Data.Value);
 
-            if (_Write)
-            {
-                opcWriteConnectSockets();
-            }
-            
+
+
 
         }
     }

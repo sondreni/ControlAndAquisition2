@@ -11,51 +11,46 @@ namespace ControlAndAquisition
         private string TAG;
         private double _PV;
         private OPC OPC_PV;
-        private string[] Alarms =  { "HH", "H", "L", "LL" };
+        private string[] Alarms = { "HH", "H", "L", "LL" };
         private OPC[] Alarm;
         private OPC[] AlarmLim;
         private double HYS = 1;
         private NIDAQ Read;
+        LowPassFilter Filter;
+
 
         public AnalogTransmitter(string TagID)
         {
             TAG = TagID;
-            OPC_PV = new OPC(TagID + "_PV",true);
+            OPC_PV = new OPC(TagID + "_PV", true);
             Alarm = new OPC[Alarms.Length];
             AlarmLim = new OPC[Alarms.Length];
-
-            for(int i = 0; i< Alarms.Length; i++)
-            {
-                Alarm[i] = new OPC("TAG_" + Alarms[i], true);
-                AlarmLim[i] = new OPC("TAG_" + Alarms[i] + "_Lim");
-            }
-        }
-        public AnalogTransmitter(string TagID,string NIDAQConnect)
-        {
-            TAG = TagID;
-            OPC_PV = new OPC(TagID + "_PV",true);
-            Alarm = new OPC[Alarms.Length];
-            AlarmLim = new OPC[Alarms.Length];
+            Filter = new LowPassFilter(1);
 
             for (int i = 0; i < Alarms.Length; i++)
             {
-                Alarm[i] = new OPC("TAG_" + Alarms[i], true);
-                AlarmLim[i] = new OPC("TAG_" + Alarms[i] + "_Lim");
+                Alarm[i] = new OPC(TAG + "_" + Alarms[i], true);
+                AlarmLim[i] = new OPC(TAG + "_" + Alarms[i] + "_Lim");
             }
 
 
-            Read = new NIDAQ(NIDAQConnect);
-
         }
+        public AnalogTransmitter(string TagID, string NIDAQConnect) : this(TagID)
+        {
+            Read = new NIDAQ(NIDAQConnect);
+        }
+
+
         public void Update()
         {
-            _PV = Read.Value;
+            _PV = Filter.FilterValue((Read.Value-1)*50/4);
+
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
         public void Update(Double NewPV)
         {
-            _PV = NewPV;
+            _PV = Filter.FilterValue(NewPV);
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
@@ -65,14 +60,18 @@ namespace ControlAndAquisition
             {
                 return _PV;
             }
+            set
+            {
+                _PV = value;
+            }
         }
 
 
         private void UpdateAlarms()
         {
-            for(int i = 0; i < Alarms.Length; i++)
+            for (int i = 0; i < Alarms.Length; i++)
             {
-                if (Alarm[i].Read()==1)
+                if (Alarm[i].Read() == 1)
                 {
                     if (Alarms[i] == "HH" || Alarms[i] == "H")
                     {
@@ -91,7 +90,7 @@ namespace ControlAndAquisition
                 }
                 else
                 {
-                    if(Alarms[i]=="HH" || Alarms[i] == "H")
+                    if (Alarms[i] == "HH" || Alarms[i] == "H")
                     {
                         if ((_PV) > AlarmLim[i].Read())
                         {
