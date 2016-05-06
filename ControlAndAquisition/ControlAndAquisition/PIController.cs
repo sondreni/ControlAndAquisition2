@@ -38,19 +38,19 @@ namespace ControlAndAquisition
 
 
 
-        public PIController(double TimeStep, string NI_PV_Connect, string NI_U_Connect, string OPCTag) : this(TimeStep,OPCTag) //PIController and simulator
+        public PIController(double TimeStep, string OPCTag, string NI_PV_Connect, string NI_U_Connect) : this(TimeStep,OPCTag) //PIController and simulator
         {
             NI_U = new NIDAQ(NI_U_Connect);
             NI_PV = new NIDAQ(NI_PV_Connect);
             
 
         }
-        public void Compute()
+        public double Compute()
         {
-            PV = NI_PV.GetValue();
-            Compute(PV);
-            NI_U.SetValue(U);
-            
+            PV = ((NI_PV.Value - 1)*50 / 4);
+            U = Compute(PV);
+            NI_U.Value=U;
+            return U;
         }
         public double Compute(double PV)
         {
