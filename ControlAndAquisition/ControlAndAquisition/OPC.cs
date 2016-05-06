@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace ControlAndAquisition
 {
+
     class OPC
     {
         public string opcurl = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.";
