@@ -69,12 +69,13 @@ namespace SCADAHMI
 
         private void btnOpnController_Click(object sender, EventArgs e)
         {
-            pidPopup.ShowDialog();
+            pidPopup.Show();
+            
         }
 
         private void btnOpenAnalogHMI_Click(object sender, EventArgs e)
         {
-            AnalogPopup.ShowDialog();
+            AnalogPopup.Show();
         }
     }
 }

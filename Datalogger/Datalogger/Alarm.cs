@@ -14,12 +14,37 @@ namespace Datalogger
         public bool Active { get; set; }
         public string AlarmText { get; set; }
 
-        public List<Alarm> GetAlarms(string connectionString,string Alarmtag)
+        public bool CheckAlarm(string connectionString, string Alarmtag)
+        {
+            Alarm Active = new Alarm();
+            SqlConnection sqlConnection1 = new SqlConnection();
+            sqlConnection1.ConnectionString = connectionString;
+            string selectSQL = "SELECT AlarmTag, Active FROM AlarmLog  WHERE Active = 1 AND AlarmTag = '" + Alarmtag + "'";
+            //SELECT AlarmTag, Active FROM AlarmLog  WHERE Active = 1 AND AlarmTag = 'TT01_HH' 
+            sqlConnection1.Open();
+            SqlCommand cmd = new SqlCommand(selectSQL, sqlConnection1);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            if (dr != null)
+            {
+                return Convert.ToBoolean(dr["Active"]);
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+
+        public List<Alarm> GetAllAlarms(string connectionString)
         {
             List<Alarm> AlarmList = new List<Alarm>();
             SqlConnection sqlConnection1 = new SqlConnection();
             sqlConnection1.ConnectionString = connectionString;
-            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY  WHERE Active = 1 AND AlarmTag = " + Alarmtag + " ORDER BY Time DESC";
+            string selectSQL = "SELECT Top 1000 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY ORDER BY Time DESC";
             
 
             sqlConnection1.Open();

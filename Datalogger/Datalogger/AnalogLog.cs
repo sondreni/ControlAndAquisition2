@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ControlAndAquisition;
+using System.Data.SqlClient;
 
 namespace Datalogger
 {
@@ -13,38 +14,61 @@ namespace Datalogger
         string[] Alarms = { "HH", "H", "L", "LL" };
         OPC[] Alarm;
         OPC OPC_PV;
-        Alarm ActiveAlarms;
+        string DatabaseConnection;
 
-        public AnalogLog(string TAG)
+        public AnalogLog(string TAG,string DatabaseConnectionString)
         {
             Tag = TAG;
+            DatabaseConnection = DatabaseConnectionString;
             OPC_PV = new OPC(Tag + "_PV");
-
-            for(int i = 0; i < Alarm.Length; i++)
+            Alarm = new OPC[Alarms.Length];
+            for(int i = 0; i < Alarms.Length; i++)
             {
-                Alarm[i] = new OPC(Tag + Alarms[i]);
+                Alarm[i] = new OPC(Tag +"_"+ Alarms[i]);
             }
-
+            
         }
 
 
 
         public void Update()
         {
-            
+            CheckAlarms();
         }
 
         private void CheckAlarms()
         {
             for (int i = 0; i < Alarm.Length; i++)
             {
-                if(Alarm[i].Read()==1)
-                {
+                //List<Alarm> AlarmList = new List<Alarm>();
+                Alarm ActiveAlarm = new Alarm();
 
+                if(Alarm[i].Value==1 && ActiveAlarm.CheckAlarm(DatabaseConnection,Tag+"_"+Alarms[i])==false)
+                {
+                    SetAlarm(Alarms[i]);
                 }
             }
         }
 
+        private void SetAlarm(string Alarm)
+        {
+
+            using (SqlConnection openCon = new SqlConnection(DatabaseConnection))
+            {
+                string NewActiveAlarm = "INSERT INTO AlarmLog (Time,Active,AlarmTag) VALUES (getdate(),1,@Alarmtag)";
+
+                using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                {
+                    queryAddActive.Connection = openCon;
+                    queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = Tag+"_"+Alarm;
+                    openCon.Open();
+                    queryAddActive.ExecuteNonQuery();
+                    openCon.Close();
+                }
+            }
+
+
+        }
 
     }
 }

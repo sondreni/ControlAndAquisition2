@@ -53,7 +53,7 @@
             // gridAlarms
             // 
             this.gridAlarms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridAlarms.Location = new System.Drawing.Point(105, 280);
+            this.gridAlarms.Location = new System.Drawing.Point(105, 241);
             this.gridAlarms.Name = "gridAlarms";
             this.gridAlarms.Size = new System.Drawing.Size(516, 150);
             this.gridAlarms.TabIndex = 1;
