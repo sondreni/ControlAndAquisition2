@@ -10,7 +10,7 @@ namespace SCADAHMI
     class PIDhmi
     {
        
-        double U;
+        
 
         OPC opcR;
         OPC opcU;
@@ -19,21 +19,24 @@ namespace SCADAHMI
             opcR = new OPC(PIDtag + "_R", true);
             opcU = new OPC(PIDtag + "_U");
         }
-        public void UpdateR(double SetPoint)
-        {
-            opcR.Write(SetPoint);
-        }
-    
-        public double ReadU()
-        {
-            U = opcU.Read();
-            return U;
-        }
+
+
         public double R
         {
             get
             {
                 return opcR.Value;
+            }
+            set
+            {
+                opcR.Value = value;
+            }
+        }
+        public double U
+        {
+            get
+            {
+                return opcU.Value;
             }
         }
     }

@@ -49,7 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alarm.cs" />
+    <Compile Include="..\..\ControlAndAquisition\ControlAndAquisition\OPC.cs">
+      <Link>OPC.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Datalogger\Datalogger\Alarm.cs">
+      <Link>Alarm.cs</Link>
+    </Compile>
     <Compile Include="AlarmHistory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,21 +62,38 @@
       <DependentUpon>AlarmHistory.cs</DependentUpon>
     </Compile>
     <Compile Include="AnalogHMI.cs" />
+    <Compile Include="AnalogHMIpopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnalogHMIpopup.Designer.cs">
+      <DependentUpon>AnalogHMIpopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="OPC.cs" />
+    <Compile Include="PIController.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PIController.Designer.cs">
+      <DependentUpon>PIController.cs</DependentUpon>
+    </Compile>
     <Compile Include="PIDhmi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlarmHistory.resx">
       <DependentUpon>AlarmHistory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AnalogHMIpopup.resx">
+      <DependentUpon>AnalogHMIpopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PIController.resx">
+      <DependentUpon>PIController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -5,22 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace SCADAHMI
 {
+
     class AnalogHMI
     {
         double HHLim;
         double HLim;
         double LLim;
         double LLLim;
-        double Y;
+
+        public int time;
 
         OPC opcY;
         OPC opcHHLim;
         OPC opcHLim;
         OPC opcLLim;
         OPC opcLLLim;
+
+
         public AnalogHMI(string SensorTag)
         {
             #region Initialize OPC communication
@@ -31,16 +36,18 @@ namespace SCADAHMI
             opcLLLim = new OPC(SensorTag + "_LL_Lim", true);
             #endregion
 
-           
+
         }
 
-        public double ReadY()
+        public double Y //Get Y
         {
-            Y = opcY.Read();
-            return Y;
+            get
+            {
+                return opcY.Value;
+            }
         }
 
-        public void UpdateLim(string HH_Lim,string H_Lim, string L_Lim,string LL_Lim)
+        public void UpdateLim(string HH_Lim, string H_Lim, string L_Lim, string LL_Lim)
         {
             #region Check if Limits are Numeric and send to OPC
             bool isNumeric = double.TryParse(HH_Lim, out HHLim);
@@ -87,6 +94,8 @@ namespace SCADAHMI
                 MessageBox.Show("Low Low Limit must be a numeric value.", "SCADA HMI");
             }
             #endregion
+
         }
+
     }
 }
