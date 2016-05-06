@@ -37,6 +37,22 @@ namespace ControlAndAquisition
 
 
         }
+        
+        public double Value
+        {
+            get
+            {
+                return Read();
+            }
+            set
+            {
+                Write(value);
+            }
+        }
+
+
+
+
 
         public void opcWriteConnectSockets()
         {
@@ -61,6 +77,7 @@ namespace ControlAndAquisition
             //value value sent
 
         }
+
 
         public double Read() //Get value from OPC
         {
