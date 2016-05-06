@@ -18,12 +18,12 @@ namespace SCADAHMI
         string sqlConnectionstring= "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
         #region Initialize OPC communication
         OPC opcY = new OPC("y");
-        OPC opcR = new OPC("r");
+        OPC opcR = new OPC("r", true);
         OPC opcU = new OPC("u");
-        OPC opcHHLim = new OPC("HHLim");
-        OPC opcHLim = new OPC("HLim");
-        OPC opcLLim = new OPC("LLim");
-        OPC opcLLLim = new OPC("LLLim");
+        OPC opcHHLim = new OPC("HHLim",true);
+        OPC opcHLim = new OPC("HLim", true);
+        OPC opcLLim = new OPC("LLim", true);
+        OPC opcLLLim = new OPC("LLLim", true);
         #endregion
 
         #region Initialize SQL Alarm Communication
@@ -173,6 +173,11 @@ namespace SCADAHMI
         private void btnShowAlrmHist_Click(object sender, EventArgs e)
         {
             alarmHist.ShowDialog();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
