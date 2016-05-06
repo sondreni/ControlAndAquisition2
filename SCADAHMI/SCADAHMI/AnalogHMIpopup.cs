@@ -18,6 +18,7 @@ namespace SCADAHMI
         public double Y;
         public double U;
         public double R;
+        public bool AlarmActive=true;/***Test****/
 
         AnalogHMI TT01 = new AnalogHMI("TT01");
         PIDhmi PID01 = new PIDhmi("PID01");
@@ -72,6 +73,7 @@ namespace SCADAHMI
 
         private void tmrAnalogHMIpopup_Tick(object sender, EventArgs e)
         {
+
             DoCharting();
             txtValueTemp.Text = TT01.Y.ToString();
         }

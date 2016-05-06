@@ -52,9 +52,23 @@ namespace SCADAHMI
 
         private void tmrHMI_Tick(object sender, EventArgs e)
         {
+         
+            IfActiveAlarm();
             txtValueTemp.Text = TT01.Y.ToString();
             txtSetPoint.Text = PID01.R.ToString();
             txtU.Text = PID01.U.ToString();
+        }
+        public void IfActiveAlarm()
+        {
+            if (AnalogPopup.AlarmActive)
+            {if (btnOpenAnalogHMI.BackColor == Color.Red)
+                {
+                    btnOpenAnalogHMI.BackColor = Color.Gray;
+                }
+                else {
+                    btnOpenAnalogHMI.BackColor = Color.Red;
+                }
+            }
         }
 
         private void btnShowAlrmHist_Click(object sender, EventArgs e)
