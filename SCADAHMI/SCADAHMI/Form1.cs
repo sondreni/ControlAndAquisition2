@@ -40,12 +40,15 @@ namespace SCADAHMI
         double HLim;
         double LLim;
         double LLLim;
+
+        AlarmHistory alarmHist = new AlarmHistory();
+        
         #endregion
 
         public Form1()
         {
             InitializeComponent();
-
+            alarmHist.Hide();
 
             #region Initialize Limits
             txtHHLim.Text = "30";
@@ -165,6 +168,11 @@ namespace SCADAHMI
         {
             alarms.GetAlarms(sqlConnectionstring);
 
+        }
+
+        private void btnShowAlrmHist_Click(object sender, EventArgs e)
+        {
+            alarmHist.ShowDialog();
         }
     }
 }

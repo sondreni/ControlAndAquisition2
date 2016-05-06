@@ -58,8 +58,9 @@
             this.txtUpdateSetPoint = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.btnUpdateSetPoint = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtDAQcon = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnShowAlrmHist = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -334,13 +335,13 @@
             this.btnUpdateSetPoint.UseVisualStyleBackColor = true;
             this.btnUpdateSetPoint.Click += new System.EventHandler(this.btnUpdateSetPoint_Click);
             // 
-            // textBox1
+            // txtDAQcon
             // 
-            this.textBox1.AcceptsReturn = true;
-            this.textBox1.Location = new System.Drawing.Point(13, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(208, 20);
-            this.textBox1.TabIndex = 18;
+            this.txtDAQcon.AcceptsReturn = true;
+            this.txtDAQcon.Location = new System.Drawing.Point(13, 58);
+            this.txtDAQcon.Name = "txtDAQcon";
+            this.txtDAQcon.Size = new System.Drawing.Size(208, 20);
+            this.txtDAQcon.TabIndex = 18;
             // 
             // label1
             // 
@@ -351,13 +352,24 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "°C Process Value";
             // 
+            // btnShowAlrmHist
+            // 
+            this.btnShowAlrmHist.Location = new System.Drawing.Point(191, 13);
+            this.btnShowAlrmHist.Name = "btnShowAlrmHist";
+            this.btnShowAlrmHist.Size = new System.Drawing.Size(79, 23);
+            this.btnShowAlrmHist.TabIndex = 20;
+            this.btnShowAlrmHist.Text = "Alarm History";
+            this.btnShowAlrmHist.UseVisualStyleBackColor = true;
+            this.btnShowAlrmHist.Click += new System.EventHandler(this.btnShowAlrmHist_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(704, 452);
+            this.Controls.Add(this.btnShowAlrmHist);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDAQcon);
             this.Controls.Add(this.btnUpdateSetPoint);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtUpdateSetPoint);
@@ -409,8 +421,9 @@
         private System.Windows.Forms.TextBox txtUpdateSetPoint;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnUpdateSetPoint;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDAQcon;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnShowAlrmHist;
     }
 }
 
