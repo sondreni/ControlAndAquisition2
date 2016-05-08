@@ -18,7 +18,7 @@ namespace SCADAHMI
         public double Y;
         public double U;
         public double R;
-        public bool AlarmActive=true;/***Test****/
+        public bool AlarmActive;/***Test****/
 
         AnalogHMI TT01 = new AnalogHMI("TT01");
         PIDhmi PID01 = new PIDhmi("PID01");
@@ -57,9 +57,36 @@ namespace SCADAHMI
             chart1.ResetAutoValues();
         }//Executes charting
 
+        private void CheckActiveAlarms()//0=HH,1=H,2=L,3=LL
+        {
+
+            if (TT01.GetActiveAlarm(0) == 1)
+            {
+                chkHHActive.Checked = true;
+                chkHActive.Checked = true;
+                AlarmActive = true;
+            }
+            else if (TT01.GetActiveAlarm(1) == 1)
+            {
+                chkHActive.Checked = true;
+                AlarmActive = true;
+            }
+            else if (TT01.GetActiveAlarm(3) == 1)
+            {
+                chkLLActive.Checked = true;
+                chkLActive.Checked = true;
+                AlarmActive = true;
+            }
+            else if (TT01.GetActiveAlarm(2) == 1)
+            {
+                chkLActive.Checked = true;
+                AlarmActive = true;
+            }
+
+        }
         private void AnalogHMIpopup_Load(object sender, EventArgs e)
         {
-            
+
             tmrAnalogHMIpopup.Start(); //Starts timer which starts updating plot.
             #region Initialize Limits
             txtHHLim.Text = "30";
@@ -78,10 +105,59 @@ namespace SCADAHMI
             txtValueTemp.Text = TT01.Y.ToString();
         }
 
+
         private void btnUpdateLim_Click(object sender, EventArgs e)
         {
             TT01.UpdateLim(txtHHLim.Text, txtHLim.Text, txtLLim.Text, txtLLLim.Text);
 
+        }
+
+        private void btnAckHHAlrm_Click(object sender, EventArgs e)
+        {
+            if (TT01.GetActiveAlarm(0) == 0)
+            {
+                //Write to SQL here****************************************
+
+                //
+                chkHHActive.Checked = false;
+                AlarmActive = false;
+            }
+        }
+
+        private void btnAckHAlrm_Click(object sender, EventArgs e)
+        {
+            if (TT01.GetActiveAlarm(1) == 0)
+            {
+                //Write to SQL here****************************************
+
+                //
+                chkHHActive.Checked = false;
+                AlarmActive = false;
+            }
+        }
+
+        private void btnAckLAlrm_Click(object sender, EventArgs e)
+        {
+            if (TT01.GetActiveAlarm(2) == 0)
+            {
+                //Write to SQL here****************************************
+
+                //
+                chkLActive.Checked = false;
+                AlarmActive = false;
+            }
+        }
+
+        private void btnAckLLAlrm_Click(object sender, EventArgs e)
+        {
+            if (TT01.GetActiveAlarm(3) == 0)
+            {
+                //Write to SQL here****************************************
+
+                //
+                chkLLActive.Checked = false;
+                AlarmActive = false;
+            }
         }
     }
 }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtValueTemp = new System.Windows.Forms.TextBox();
             this.tmrAnalogHMIpopup = new System.Windows.Forms.Timer(this.components);
@@ -41,9 +41,6 @@
             this.chkLActive = new System.Windows.Forms.CheckBox();
             this.chkHActive = new System.Windows.Forms.CheckBox();
             this.chkHHActive = new System.Windows.Forms.CheckBox();
-            this.btnAckLLAlrm = new System.Windows.Forms.Button();
-            this.btnAckLAlrm = new System.Windows.Forms.Button();
-            this.btnAckHAlrm = new System.Windows.Forms.Button();
             this.btnAckHHAlrm = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnUpdateLim = new System.Windows.Forms.Button();
@@ -55,6 +52,9 @@
             this.txtLLim = new System.Windows.Forms.TextBox();
             this.txtHLim = new System.Windows.Forms.TextBox();
             this.txtHHLim = new System.Windows.Forms.TextBox();
+            this.btnAckLLAlrm = new System.Windows.Forms.Button();
+            this.btnAckLAlrm = new System.Windows.Forms.Button();
+            this.btnAckHAlrm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -62,18 +62,18 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(12, 179);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(370, 169);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(378, 169);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -111,7 +111,7 @@
             this.groupBox1.Controls.Add(this.btnAckHHAlrm);
             this.groupBox1.Location = new System.Drawing.Point(194, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(188, 135);
+            this.groupBox1.Size = new System.Drawing.Size(196, 135);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Acknowledge Alarms";
@@ -122,9 +122,9 @@
             this.chkLLActive.Enabled = false;
             this.chkLLActive.Location = new System.Drawing.Point(129, 103);
             this.chkLLActive.Name = "chkLLActive";
-            this.chkLLActive.Size = new System.Drawing.Size(56, 17);
+            this.chkLLActive.Size = new System.Drawing.Size(65, 17);
             this.chkLLActive.TabIndex = 13;
-            this.chkLLActive.Text = "Active";
+            this.chkLLActive.Text = "Toggled";
             this.chkLLActive.UseVisualStyleBackColor = true;
             // 
             // chkLActive
@@ -133,9 +133,9 @@
             this.chkLActive.Enabled = false;
             this.chkLActive.Location = new System.Drawing.Point(129, 76);
             this.chkLActive.Name = "chkLActive";
-            this.chkLActive.Size = new System.Drawing.Size(56, 17);
+            this.chkLActive.Size = new System.Drawing.Size(65, 17);
             this.chkLActive.TabIndex = 12;
-            this.chkLActive.Text = "Active";
+            this.chkLActive.Text = "Toggled";
             this.chkLActive.UseVisualStyleBackColor = true;
             // 
             // chkHActive
@@ -144,9 +144,9 @@
             this.chkHActive.Enabled = false;
             this.chkHActive.Location = new System.Drawing.Point(129, 49);
             this.chkHActive.Name = "chkHActive";
-            this.chkHActive.Size = new System.Drawing.Size(56, 17);
+            this.chkHActive.Size = new System.Drawing.Size(65, 17);
             this.chkHActive.TabIndex = 11;
-            this.chkHActive.Text = "Active";
+            this.chkHActive.Text = "Toggled";
             this.chkHActive.UseVisualStyleBackColor = true;
             // 
             // chkHHActive
@@ -155,37 +155,10 @@
             this.chkHHActive.Enabled = false;
             this.chkHHActive.Location = new System.Drawing.Point(129, 22);
             this.chkHHActive.Name = "chkHHActive";
-            this.chkHHActive.Size = new System.Drawing.Size(56, 17);
+            this.chkHHActive.Size = new System.Drawing.Size(65, 17);
             this.chkHHActive.TabIndex = 10;
-            this.chkHHActive.Text = "Active";
+            this.chkHHActive.Text = "Toggled";
             this.chkHHActive.UseVisualStyleBackColor = true;
-            // 
-            // btnAckLLAlrm
-            // 
-            this.btnAckLLAlrm.Location = new System.Drawing.Point(6, 100);
-            this.btnAckLLAlrm.Name = "btnAckLLAlrm";
-            this.btnAckLLAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckLLAlrm.TabIndex = 9;
-            this.btnAckLLAlrm.Text = "Low Low Alarm";
-            this.btnAckLLAlrm.UseVisualStyleBackColor = true;
-            // 
-            // btnAckLAlrm
-            // 
-            this.btnAckLAlrm.Location = new System.Drawing.Point(6, 73);
-            this.btnAckLAlrm.Name = "btnAckLAlrm";
-            this.btnAckLAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckLAlrm.TabIndex = 8;
-            this.btnAckLAlrm.Text = "Low Alarm";
-            this.btnAckLAlrm.UseVisualStyleBackColor = true;
-            // 
-            // btnAckHAlrm
-            // 
-            this.btnAckHAlrm.Location = new System.Drawing.Point(6, 46);
-            this.btnAckHAlrm.Name = "btnAckHAlrm";
-            this.btnAckHAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckHAlrm.TabIndex = 7;
-            this.btnAckHAlrm.Text = "High Alarm";
-            this.btnAckHAlrm.UseVisualStyleBackColor = true;
             // 
             // btnAckHHAlrm
             // 
@@ -195,6 +168,7 @@
             this.btnAckHHAlrm.TabIndex = 6;
             this.btnAckHHAlrm.Text = "High High Alarm";
             this.btnAckHHAlrm.UseVisualStyleBackColor = true;
+            this.btnAckHHAlrm.Click += new System.EventHandler(this.btnAckHHAlrm_Click);
             // 
             // groupBox2
             // 
@@ -293,11 +267,41 @@
             this.txtHHLim.TabIndex = 0;
             this.txtHHLim.Text = "30";
             // 
+            // btnAckLLAlrm
+            // 
+            this.btnAckLLAlrm.Location = new System.Drawing.Point(6, 100);
+            this.btnAckLLAlrm.Name = "btnAckLLAlrm";
+            this.btnAckLLAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckLLAlrm.TabIndex = 9;
+            this.btnAckLLAlrm.Text = "Low Low Alarm";
+            this.btnAckLLAlrm.UseVisualStyleBackColor = true;
+            this.btnAckLLAlrm.Click += new System.EventHandler(this.btnAckLLAlrm_Click);
+            // 
+            // btnAckLAlrm
+            // 
+            this.btnAckLAlrm.Location = new System.Drawing.Point(6, 73);
+            this.btnAckLAlrm.Name = "btnAckLAlrm";
+            this.btnAckLAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckLAlrm.TabIndex = 8;
+            this.btnAckLAlrm.Text = "Low Alarm";
+            this.btnAckLAlrm.UseVisualStyleBackColor = true;
+            this.btnAckLAlrm.Click += new System.EventHandler(this.btnAckLAlrm_Click);
+            // 
+            // btnAckHAlrm
+            // 
+            this.btnAckHAlrm.Location = new System.Drawing.Point(6, 46);
+            this.btnAckHAlrm.Name = "btnAckHAlrm";
+            this.btnAckHAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckHAlrm.TabIndex = 7;
+            this.btnAckHAlrm.Text = "High Alarm";
+            this.btnAckHAlrm.UseVisualStyleBackColor = true;
+            this.btnAckHAlrm.Click += new System.EventHandler(this.btnAckHAlrm_Click);
+            // 
             // AnalogHMIpopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 361);
+            this.ClientSize = new System.Drawing.Size(402, 361);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
@@ -327,9 +331,6 @@
         private System.Windows.Forms.CheckBox chkLActive;
         private System.Windows.Forms.CheckBox chkHActive;
         private System.Windows.Forms.CheckBox chkHHActive;
-        private System.Windows.Forms.Button btnAckLLAlrm;
-        private System.Windows.Forms.Button btnAckLAlrm;
-        private System.Windows.Forms.Button btnAckHAlrm;
         private System.Windows.Forms.Button btnAckHHAlrm;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnUpdateLim;
@@ -341,5 +342,8 @@
         private System.Windows.Forms.TextBox txtLLim;
         private System.Windows.Forms.TextBox txtHLim;
         private System.Windows.Forms.TextBox txtHHLim;
+        private System.Windows.Forms.Button btnAckLLAlrm;
+        private System.Windows.Forms.Button btnAckLAlrm;
+        private System.Windows.Forms.Button btnAckHAlrm;
     }
 }

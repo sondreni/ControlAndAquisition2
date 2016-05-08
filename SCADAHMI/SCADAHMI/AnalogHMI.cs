@@ -17,6 +17,9 @@ namespace SCADAHMI
         double LLim;
         double LLLim;
 
+        string[] alarms = { "_HH", "_H", "_L", "_LL" };
+        OPC[] AllAlarms;
+        OPC[] AlarmLims;
         public int time;
 
         OPC opcY;
@@ -25,24 +28,38 @@ namespace SCADAHMI
         OPC opcLLim;
         OPC opcLLLim;
 
+        OPC opcHH;
+        OPC opcH;
+        OPC opcL;
+        OPC opcLL;
 
         public AnalogHMI(string SensorTag)
         {
             #region Initialize OPC communication
+            for(int i=0; i<alarms.Length ; i++)
+            {
+                AlarmLims[i] = new OPC(SensorTag + alarms[i] + "_Lim", true);//0=HH,1=H,2=L,3=LL
+            }
+
+            for (int i = 0; i < alarms.Length; i++)
+            {
+                AllAlarms[i] = new OPC(SensorTag + alarms[i]);//0=HH,1=H,2=L,3=LL
+            }
             opcY = new OPC(SensorTag + "_PV");
-            opcHHLim = new OPC(SensorTag + "_HH_Lim", true);
-            opcHLim = new OPC(SensorTag + "_H_Lim", true);
-            opcLLim = new OPC(SensorTag + "_L_Lim", true);
-            opcLLLim = new OPC(SensorTag + "_LL_Lim", true);
+            
             #endregion
+        }
 
-
+        public double GetActiveAlarm(int i) //0=HH,1=H,2=L,3=LL
+        {
+            return AllAlarms[i].Value;
         }
 
         public double Y //Get Y
         {
             get
             {
+
                 return opcY.Value;
             }
         }
