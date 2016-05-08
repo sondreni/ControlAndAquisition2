@@ -9,32 +9,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ControlAndAquisition;
+using Datalogger;
 
 namespace SCADAHMI
 {
     public partial class AnalogHMIpopup : Form
     {
         //Create variables.
+        public string TagID { get; }
+        string[] Alarms = { "HH", "H", "L", "LL" };
+        OPC[] Alarm;
+        OPC[] AlarmLimits;
+        OPC OPC_PV;
+        OPC OPC_R;
+        OPC OPC_U;
+
+        bool ActiveAlarm = false;
+
         public double time;
         public double Y;
         public double U;
         public double R;
         public bool AlarmActive;/***Test****/
         string sqlConnectionstring = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
-        
 
-        AnalogHMI TT01 = new AnalogHMI("TT01");
-        PIDhmi PID01 = new PIDhmi("PID01");
-        public AnalogHMIpopup()
+
+
+
+        public AnalogHMIpopup(string SensorTag, string ControllerTAG)
         {
             InitializeComponent();
+            TagID = SensorTag;
+            InitializeCharts();
+
+            Alarm = new OPC[Alarms.Length];
+            AlarmLimits = new OPC[Alarms.Length];
+            for (int i = 0; i < Alarms.Length; i++)
+            {
+                Alarm[i] = new OPC(TagID + "_" + Alarms[i]);
+                AlarmLimits[i] = new OPC(TagID + "_" + Alarms[i] + "_Lim", true);
+            }
+            OPC_PV = new OPC(TagID + "_PV");
+            OPC_R = new OPC(ControllerTAG + "_R");
+            OPC_U = new OPC(ControllerTAG + "_U");
+        }
+
+        private void InitializeCharts()
+        {
 
             #region Initialize Chart
             chart1.Series.Clear();
             chart1.Series.Add("°C");
             chart1.Series["°C"].ChartType = SeriesChartType.Line;
             chart1.Series.Add("r");
-            chart1.Series["r"].ChartType = SeriesChartType.Line;            
+            chart1.Series["r"].ChartType = SeriesChartType.Line;
             chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
 
             chart2.Series.Clear();
@@ -43,6 +72,7 @@ namespace SCADAHMI
             chart2.ChartAreas[0].AxisY.IsStartedFromZero = false;
             #endregion
         }
+
 
         public void DoCharting()
         {
@@ -53,9 +83,9 @@ namespace SCADAHMI
                 chart1.Series["r"].Points.RemoveAt(0);
             }
             time++;
-            Y = TT01.Y;
-            R = PID01.R;
-            U = PID01.U;
+            Y = OPC_PV.Value;
+            R = OPC_R.Value;
+            U = OPC_U.Value;
             txtValueTemp.Text = Y.ToString();
 
             chart2.Series["u"].Points.AddXY(time, U);
@@ -63,68 +93,147 @@ namespace SCADAHMI
             chart1.Series["r"].Points.AddXY(time, R);
             chart1.ResetAutoValues();
             chart2.ResetAutoValues();
-            
-            
+
+
         }//Executes charting
 
-        private void CheckActiveAlarms()//0=HH,1=H,2=L,3=LL
+
+        private bool GetDBAlarm(string AlarmTag)
         {
 
-            if (TT01.GetActiveAlarm(0) == 1)
+            List<Alarm> AlarmList = new List<Alarm>();
+            Alarm Alarmvalue = new Alarm();
+
+            AlarmList = Alarmvalue.GetSingleAlarm(sqlConnectionstring, TagID + "_" + AlarmTag);
+
+
+            if (AlarmList.Count > 0)
             {
-                chkHHActive.Checked = true;
-                chkHActive.Checked = true;
-                AlarmActive = true;
+                ActiveAlarm = AlarmList[0].Active;
             }
-            else if (TT01.GetActiveAlarm(1) == 1)
+            else
             {
-                chkHActive.Checked = true;
-                AlarmActive = true;
-            }
-            else if (TT01.GetActiveAlarm(3) == 1)
-            {
-                chkLLActive.Checked = true;
-                chkLActive.Checked = true;
-                AlarmActive = true;
-            }
-            else if (TT01.GetActiveAlarm(2) == 1)
-            {
-                chkLActive.Checked = true;
-                AlarmActive = true;
+                ActiveAlarm = false;
             }
 
+            return ActiveAlarm;
+        }
+
+
+        private void CheckActiveAlarms()
+        {
+            chkHHActive.Checked = GetDBAlarm("HH");
+            chkHActive.Checked = GetDBAlarm("H");
+            chkLActive.Checked = GetDBAlarm("L");
+            chkLLActive.Checked = GetDBAlarm("LL");
         }
         private void AnalogHMIpopup_Load(object sender, EventArgs e)
         {
 
-            tmrAnalogHMIpopup.Start(); //Starts timer which starts updating plot.
+
             #region Initialize Limits
             txtHHLim.Text = "30";
             txtHLim.Text = "28";
             txtLLim.Text = "22";
             txtLLLim.Text = "20";
 
-            TT01.UpdateLim(txtHHLim.Text, txtHLim.Text, txtLLim.Text, txtLLLim.Text);
+            UpdateLims();
             #endregion
         }
 
         private void tmrAnalogHMIpopup_Tick(object sender, EventArgs e)
         {
 
+            
+        }
+
+        public void Updat()
+        {
+
             DoCharting();
-            txtValueTemp.Text = TT01.Y.ToString();
+            txtValueTemp.Text = OPC_PV.Value.ToString();
+            CheckActiveAlarms();
+
+
+
+        }
+
+        private void UpdateLims()
+        {
+            #region Check if Limits are Numeric and send to OPC
+            string HH_Lim = txtHHLim.Text;
+            string H_Lim = txtHLim.Text;
+            string L_Lim = txtLLim.Text;
+            string LL_Lim = txtLLLim.Text;
+            double HHLim;
+            double HLim;
+            double LLim;
+            double LLLim;
+
+            
+            bool isNumeric = double.TryParse(HH_Lim, out HHLim);
+            if (isNumeric)
+            {
+                HHLim = Convert.ToDouble(HH_Lim);
+                AlarmLimits[0].Value = HHLim;
+
+            }
+            else
+            {
+                MessageBox.Show("High High Limit must be a numeric value.", "SCADA HMI");
+            }
+
+            isNumeric = double.TryParse(H_Lim, out HLim);
+            if (isNumeric)
+            {
+                HLim = Convert.ToDouble(H_Lim);
+                AlarmLimits[1].Value = HLim;
+
+            }
+            else
+            {
+                MessageBox.Show("High Limit must be a numeric value.", "SCADA HMI");
+            }
+
+            isNumeric = double.TryParse(L_Lim, out LLim);
+            if (isNumeric)
+            {
+                LLim = Convert.ToDouble(L_Lim);
+                AlarmLimits[2].Value = LLim;
+
+            }
+            else
+            {
+                MessageBox.Show("Low Limit must be a numeric value.", "SCADA HMI");
+            }
+
+            isNumeric = double.TryParse(LL_Lim, out LLLim);
+            if (isNumeric)
+            {
+                LLLim = Convert.ToDouble(LL_Lim);
+                AlarmLimits[3].Value = LLLim;
+
+            }
+            else
+            {
+                MessageBox.Show("Low Low Limit must be a numeric value.", "SCADA HMI");
+            }
+            #endregion
         }
 
 
         private void btnUpdateLim_Click(object sender, EventArgs e)
         {
-            TT01.UpdateLim(txtHHLim.Text, txtHLim.Text, txtLLim.Text, txtLLLim.Text);
+            UpdateLims();
+
+
 
         }
 
         private void btnAckHHAlrm_Click(object sender, EventArgs e)
         {
-            if (TT01.GetActiveAlarm(0) == 0)
+            
+            if (chkHHActive.Checked)
             {
                 //Write to SQL here****************************************
 
@@ -152,7 +261,7 @@ namespace SCADAHMI
 
         private void btnAckHAlrm_Click(object sender, EventArgs e)
         {
-            if (TT01.GetActiveAlarm(1) == 0)
+            if (chkHActive.Checked)
             {
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
@@ -177,7 +286,7 @@ namespace SCADAHMI
 
         private void btnAckLAlrm_Click(object sender, EventArgs e)
         {
-            if (TT01.GetActiveAlarm(2) == 0)
+            if (chkLActive.Checked)
             {
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
@@ -202,7 +311,7 @@ namespace SCADAHMI
 
         private void btnAckLLAlrm_Click(object sender, EventArgs e)
         {
-            if (TT01.GetActiveAlarm(3) == 0)
+            if (chkLLActive.Checked)
             {
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
