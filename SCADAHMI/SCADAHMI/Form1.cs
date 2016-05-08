@@ -57,7 +57,22 @@ namespace SCADAHMI
             txtValueTemp.Text = TT01.Y.ToString();
             txtSetPoint.Text = PID01.R.ToString();
             txtU.Text = PID01.U.ToString();
+            LoadActiveAlarms();
         }
+
+
+        private void LoadActiveAlarms()
+        {
+            List<Alarm> AlarmList = new List<Alarm>();
+            Alarm Alarmvalue = new Alarm();
+
+            AlarmList = Alarmvalue.GetAlarms(sqlConnectionstring);
+
+            gridAlarms.DataSource = AlarmList;
+            gridAlarms.AutoResizeColumns();
+        }
+
+
         public void IfActiveAlarm()
         {
             if (AnalogPopup.AlarmActive)

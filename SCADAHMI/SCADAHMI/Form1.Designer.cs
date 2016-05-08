@@ -44,9 +44,11 @@
             this.txtU = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.gridAlarms = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAlarms)).BeginInit();
             this.SuspendLayout();
             // 
             // txtValueTemp
@@ -178,11 +180,20 @@
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
             // 
+            // gridAlarms
+            // 
+            this.gridAlarms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridAlarms.Location = new System.Drawing.Point(12, 191);
+            this.gridAlarms.Name = "gridAlarms";
+            this.gridAlarms.Size = new System.Drawing.Size(605, 113);
+            this.gridAlarms.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 199);
+            this.ClientSize = new System.Drawing.Size(629, 316);
+            this.Controls.Add(this.gridAlarms);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnShowAlrmHist);
@@ -196,6 +207,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAlarms)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -216,6 +228,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnOpnController;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.DataGridView gridAlarms;
     }
 }
 
