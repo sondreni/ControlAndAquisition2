@@ -34,11 +34,13 @@ namespace SCADAHMI
             chart1.Series.Add("°C");
             chart1.Series["°C"].ChartType = SeriesChartType.Line;
             chart1.Series.Add("r");
-            chart1.Series["r"].ChartType = SeriesChartType.Line;
+            chart1.Series["r"].ChartType = SeriesChartType.Line;            
+            chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
 
             chart2.Series.Clear();
             chart2.Series.Add("u");
             chart2.Series["u"].ChartType = SeriesChartType.Line;
+            chart2.ChartAreas[0].AxisY.IsStartedFromZero = false;
             #endregion
         }
 
@@ -61,7 +63,7 @@ namespace SCADAHMI
             chart1.Series["r"].Points.AddXY(time, R);
             chart1.ResetAutoValues();
             chart2.ResetAutoValues();
-
+            
             
         }//Executes charting
 
