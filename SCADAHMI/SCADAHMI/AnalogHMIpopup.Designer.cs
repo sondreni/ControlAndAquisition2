@@ -79,6 +79,7 @@
             // 
             // txtValueTemp
             // 
+            this.txtValueTemp.Enabled = false;
             this.txtValueTemp.Location = new System.Drawing.Point(194, 153);
             this.txtValueTemp.Name = "txtValueTemp";
             this.txtValueTemp.Size = new System.Drawing.Size(100, 20);
