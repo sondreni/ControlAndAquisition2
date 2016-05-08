@@ -24,7 +24,7 @@ namespace Datalogger
         {
             InitializeComponent();
 
-            TT01 = new AnalogLog("TT01", SQLConnectionString);
+            TT01 = new AnalogLog("TT01", SQLConnectionString,"PID01");
 
             trmUpdate.Enabled = true;
 
@@ -40,12 +40,23 @@ namespace Datalogger
         private void button1_Click(object sender, EventArgs e)
         {
 
-            TT01.Update();
+            
         }
 
         private void trmUpdate_Tick(object sender, EventArgs e)
         {
-          
+            TT01.Update();
+
+
+            List<Alarm> AlarmList = new List<Alarm>();
+            Alarm Alarmvalue = new Alarm();
+
+            AlarmList = Alarmvalue.GetAllAlarms(SQLConnectionString);
+
+            gridAlarms.DataSource = AlarmList;
+
+
+
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Datalogger
         public string Tag { get; set; }
         public string Time { get; set; }
         public bool Active { get; set; }
+        public string AcknowledgeTime { get; set; }
         public string AlarmText { get; set; }
 
         public bool CheckAlarm(string connectionString, string Alarmtag)
@@ -82,7 +83,7 @@ namespace Datalogger
             List<Alarm> AlarmList = new List<Alarm>();
             SqlConnection sqlConnection1 = new SqlConnection();
             sqlConnection1.ConnectionString = connectionString;
-            string selectSQL = "SELECT Top 1000 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY ORDER BY Time DESC";
+            string selectSQL = "SELECT Top 1000 AlarmTag, Time, Active, AcknowledgeTime, AlarmText FROM ALARMHISTORY ORDER BY Active DESC,Time DESC";
             
 
             sqlConnection1.Open();
@@ -97,6 +98,7 @@ namespace Datalogger
                     alarm.Tag = Convert.ToString(dr["AlarmTag"]);
                     alarm.Time = Convert.ToString(dr["Time"]);
                     alarm.Active = Convert.ToBoolean(dr["Active"]);
+                    alarm.AcknowledgeTime = Convert.ToString(dr["AcknowledgeTime"]);
                     alarm.AlarmText = dr["AlarmText"].ToString();
                     AlarmList.Add(alarm);
                 }
@@ -114,7 +116,7 @@ namespace Datalogger
             List<Alarm> AlarmList = new List<Alarm>();
             SqlConnection sqlConnection1 = new SqlConnection();
             sqlConnection1.ConnectionString = connectionString;
-            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AlarmText FROM ALARMHISTORY  WHERE Active = 1 ORDER BY Time DESC";
+            string selectSQL = "SELECT Top 20 AlarmTag, Time, Active, AcknowledgeTime, AlarmText FROM ALARMHISTORY  WHERE Active = 1 ORDER BY Time DESC";
 
 
             sqlConnection1.Open();
@@ -129,6 +131,7 @@ namespace Datalogger
                     alarm.Tag = Convert.ToString(dr["AlarmTag"]);
                     alarm.Time = Convert.ToString(dr["Time"]);
                     alarm.Active = Convert.ToBoolean(dr["Active"]);
+                    alarm.AcknowledgeTime = Convert.ToString(dr["AcknowledgeTime"]);
                     alarm.AlarmText = dr["AlarmText"].ToString();
                     AlarmList.Add(alarm);
                 }
