@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.txtValueTemp = new System.Windows.Forms.TextBox();
             this.tmrAnalogHMIpopup = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -41,6 +43,9 @@
             this.chkLActive = new System.Windows.Forms.CheckBox();
             this.chkHActive = new System.Windows.Forms.CheckBox();
             this.chkHHActive = new System.Windows.Forms.CheckBox();
+            this.btnAckLLAlrm = new System.Windows.Forms.Button();
+            this.btnAckLAlrm = new System.Windows.Forms.Button();
+            this.btnAckHAlrm = new System.Windows.Forms.Button();
             this.btnAckHHAlrm = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnUpdateLim = new System.Windows.Forms.Button();
@@ -52,30 +57,13 @@
             this.txtLLim = new System.Windows.Forms.TextBox();
             this.txtHLim = new System.Windows.Forms.TextBox();
             this.txtHHLim = new System.Windows.Forms.TextBox();
-            this.btnAckLLAlrm = new System.Windows.Forms.Button();
-            this.btnAckLAlrm = new System.Windows.Forms.Button();
-            this.btnAckHAlrm = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
-            this.chart1.Location = new System.Drawing.Point(12, 179);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(370, 85);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
             // 
             // txtValueTemp
             // 
@@ -160,6 +148,36 @@
             this.chkHHActive.Text = "Toggled";
             this.chkHHActive.UseVisualStyleBackColor = true;
             // 
+            // btnAckLLAlrm
+            // 
+            this.btnAckLLAlrm.Location = new System.Drawing.Point(6, 100);
+            this.btnAckLLAlrm.Name = "btnAckLLAlrm";
+            this.btnAckLLAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckLLAlrm.TabIndex = 9;
+            this.btnAckLLAlrm.Text = "Low Low Alarm";
+            this.btnAckLLAlrm.UseVisualStyleBackColor = true;
+            this.btnAckLLAlrm.Click += new System.EventHandler(this.btnAckLLAlrm_Click);
+            // 
+            // btnAckLAlrm
+            // 
+            this.btnAckLAlrm.Location = new System.Drawing.Point(6, 73);
+            this.btnAckLAlrm.Name = "btnAckLAlrm";
+            this.btnAckLAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckLAlrm.TabIndex = 8;
+            this.btnAckLAlrm.Text = "Low Alarm";
+            this.btnAckLAlrm.UseVisualStyleBackColor = true;
+            this.btnAckLAlrm.Click += new System.EventHandler(this.btnAckLAlrm_Click);
+            // 
+            // btnAckHAlrm
+            // 
+            this.btnAckHAlrm.Location = new System.Drawing.Point(6, 46);
+            this.btnAckHAlrm.Name = "btnAckHAlrm";
+            this.btnAckHAlrm.Size = new System.Drawing.Size(117, 21);
+            this.btnAckHAlrm.TabIndex = 7;
+            this.btnAckHAlrm.Text = "High Alarm";
+            this.btnAckHAlrm.UseVisualStyleBackColor = true;
+            this.btnAckHAlrm.Click += new System.EventHandler(this.btnAckHAlrm_Click);
+            // 
             // btnAckHHAlrm
             // 
             this.btnAckHHAlrm.Location = new System.Drawing.Point(6, 19);
@@ -183,7 +201,7 @@
             this.groupBox2.Controls.Add(this.txtHHLim);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(176, 159);
+            this.groupBox2.Size = new System.Drawing.Size(176, 161);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Limits";
@@ -267,62 +285,64 @@
             this.txtHHLim.TabIndex = 0;
             this.txtHHLim.Text = "30";
             // 
-            // btnAckLLAlrm
+            // chart1
             // 
-            this.btnAckLLAlrm.Location = new System.Drawing.Point(6, 100);
-            this.btnAckLLAlrm.Name = "btnAckLLAlrm";
-            this.btnAckLLAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckLLAlrm.TabIndex = 9;
-            this.btnAckLLAlrm.Text = "Low Low Alarm";
-            this.btnAckLLAlrm.UseVisualStyleBackColor = true;
-            this.btnAckLLAlrm.Click += new System.EventHandler(this.btnAckLLAlrm_Click);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(12, 179);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(376, 78);
+            this.chart1.TabIndex = 14;
+            this.chart1.Text = "chart1";
             // 
-            // btnAckLAlrm
+            // chart2
             // 
-            this.btnAckLAlrm.Location = new System.Drawing.Point(6, 73);
-            this.btnAckLAlrm.Name = "btnAckLAlrm";
-            this.btnAckLAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckLAlrm.TabIndex = 8;
-            this.btnAckLAlrm.Text = "Low Alarm";
-            this.btnAckLAlrm.UseVisualStyleBackColor = true;
-            this.btnAckLAlrm.Click += new System.EventHandler(this.btnAckLAlrm_Click);
-            // 
-            // btnAckHAlrm
-            // 
-            this.btnAckHAlrm.Location = new System.Drawing.Point(6, 46);
-            this.btnAckHAlrm.Name = "btnAckHAlrm";
-            this.btnAckHAlrm.Size = new System.Drawing.Size(117, 21);
-            this.btnAckHAlrm.TabIndex = 7;
-            this.btnAckHAlrm.Text = "High Alarm";
-            this.btnAckHAlrm.UseVisualStyleBackColor = true;
-            this.btnAckHAlrm.Click += new System.EventHandler(this.btnAckHAlrm_Click);
+            chartArea2.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart2.Legends.Add(legend2);
+            this.chart2.Location = new System.Drawing.Point(12, 271);
+            this.chart2.Name = "chart2";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart2.Series.Add(series2);
+            this.chart2.Size = new System.Drawing.Size(376, 78);
+            this.chart2.TabIndex = 15;
+            this.chart2.Text = "chart2";
             // 
             // AnalogHMIpopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 361);
+            this.Controls.Add(this.chart2);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtValueTemp);
-            this.Controls.Add(this.chart1);
             this.Name = "AnalogHMIpopup";
             this.Text = "AnalogHMIpopup";
             this.Load += new System.EventHandler(this.AnalogHMIpopup_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.TextBox txtValueTemp;
         private System.Windows.Forms.Timer tmrAnalogHMIpopup;
         private System.Windows.Forms.Label label1;
@@ -345,5 +365,7 @@
         private System.Windows.Forms.Button btnAckLLAlrm;
         private System.Windows.Forms.Button btnAckLAlrm;
         private System.Windows.Forms.Button btnAckHAlrm;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
     }
 }

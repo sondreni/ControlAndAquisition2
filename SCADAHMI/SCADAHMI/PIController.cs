@@ -42,5 +42,14 @@ namespace SCADAHMI
             tmrControllerPopup.Start();
             
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+                       
+        }
+
+
     }
 }

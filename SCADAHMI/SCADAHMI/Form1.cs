@@ -100,6 +100,7 @@ namespace SCADAHMI
         private void btnOpnController_Click(object sender, EventArgs e)
         {
             pidPopup.Show();
+            pidPopup.TopMost = true;
             
         }
 

@@ -20,23 +20,17 @@ namespace SCADAHMI
         string[] alarms = { "_HH", "_H", "_L", "_LL" };
         OPC[] AllAlarms;
         OPC[] AlarmLims;
-        public int time;
+
 
         OPC opcY;
-        OPC opcHHLim;
-        OPC opcHLim;
-        OPC opcLLim;
-        OPC opcLLLim;
 
-        OPC opcHH;
-        OPC opcH;
-        OPC opcL;
-        OPC opcLL;
 
         public AnalogHMI(string SensorTag)
         {
+            AlarmLims = new OPC[alarms.Length];
+            AllAlarms = new OPC[alarms.Length];
             #region Initialize OPC communication
-            for(int i=0; i<alarms.Length ; i++)
+            for (int i=0; i<alarms.Length ; i++)
             {
                 AlarmLims[i] = new OPC(SensorTag + alarms[i] + "_Lim", true);//0=HH,1=H,2=L,3=LL
             }
@@ -71,7 +65,8 @@ namespace SCADAHMI
             if (isNumeric)
             {
                 HHLim = Convert.ToDouble(HH_Lim);
-                opcHHLim.Write(HHLim);
+                AlarmLims[0].Value = HHLim;
+                
             }
             else
             {
@@ -82,7 +77,8 @@ namespace SCADAHMI
             if (isNumeric)
             {
                 HLim = Convert.ToDouble(H_Lim);
-                opcHLim.Write(HLim);
+                AlarmLims[1].Value = HLim;
+                
             }
             else
             {
@@ -93,7 +89,8 @@ namespace SCADAHMI
             if (isNumeric)
             {
                 LLim = Convert.ToDouble(L_Lim);
-                opcLLim.Write(LLim);
+                AlarmLims[2].Value = LLim;
+                
             }
             else
             {
@@ -104,7 +101,8 @@ namespace SCADAHMI
             if (isNumeric)
             {
                 LLLim = Convert.ToDouble(LL_Lim);
-                opcLLLim.Write(LLLim);
+                AlarmLims[3].Value = LLLim;
+                
             }
             else
             {

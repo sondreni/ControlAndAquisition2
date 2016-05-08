@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace SCADAHMI
         public double U;
         public double R;
         public bool AlarmActive;/***Test****/
+        string sqlConnectionstring = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
+        
 
         AnalogHMI TT01 = new AnalogHMI("TT01");
         PIDhmi PID01 = new PIDhmi("PID01");
@@ -30,10 +33,12 @@ namespace SCADAHMI
             chart1.Series.Clear();
             chart1.Series.Add("°C");
             chart1.Series["°C"].ChartType = SeriesChartType.Line;
-            chart1.Series.Add("u");
-            chart1.Series["u"].ChartType = SeriesChartType.Line;
             chart1.Series.Add("r");
             chart1.Series["r"].ChartType = SeriesChartType.Line;
+
+            chart2.Series.Clear();
+            chart2.Series.Add("u");
+            chart2.Series["u"].ChartType = SeriesChartType.Line;
             #endregion
         }
 
@@ -41,7 +46,7 @@ namespace SCADAHMI
         {
             if (time > 60)
             {
-                chart1.Series["u"].Points.RemoveAt(0);
+                chart2.Series["u"].Points.RemoveAt(0);
                 chart1.Series["°C"].Points.RemoveAt(0);
                 chart1.Series["r"].Points.RemoveAt(0);
             }
@@ -51,10 +56,13 @@ namespace SCADAHMI
             U = PID01.U;
             txtValueTemp.Text = Y.ToString();
 
-            chart1.Series["u"].Points.AddXY(time, U);
+            chart2.Series["u"].Points.AddXY(time, U);
             chart1.Series["°C"].Points.AddXY(time, Y);
             chart1.Series["r"].Points.AddXY(time, R);
             chart1.ResetAutoValues();
+            chart2.ResetAutoValues();
+
+            
         }//Executes charting
 
         private void CheckActiveAlarms()//0=HH,1=H,2=L,3=LL
@@ -118,6 +126,22 @@ namespace SCADAHMI
             {
                 //Write to SQL here****************************************
 
+                using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
+                {
+                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+
+                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    {
+                        queryAddActive.Connection = openCon;
+                        queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_HH";
+                        openCon.Open();
+                        queryAddActive.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                }
+
+
+
                 //
                 chkHHActive.Checked = false;
                 AlarmActive = false;
@@ -129,6 +153,19 @@ namespace SCADAHMI
             if (TT01.GetActiveAlarm(1) == 0)
             {
                 //Write to SQL here****************************************
+                using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
+                {
+                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+
+                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    {
+                        queryAddActive.Connection = openCon;
+                        queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_H";
+                        openCon.Open();
+                        queryAddActive.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                }
 
                 //
                 chkHHActive.Checked = false;
@@ -141,6 +178,19 @@ namespace SCADAHMI
             if (TT01.GetActiveAlarm(2) == 0)
             {
                 //Write to SQL here****************************************
+                using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
+                {
+                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+
+                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    {
+                        queryAddActive.Connection = openCon;
+                        queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_L";
+                        openCon.Open();
+                        queryAddActive.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                }
 
                 //
                 chkLActive.Checked = false;
@@ -153,11 +203,30 @@ namespace SCADAHMI
             if (TT01.GetActiveAlarm(3) == 0)
             {
                 //Write to SQL here****************************************
+                using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
+                {
+                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+
+                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    {
+                        queryAddActive.Connection = openCon;
+                        queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_LL";
+                        openCon.Open();
+                        queryAddActive.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                }
 
                 //
                 chkLLActive.Checked = false;
                 AlarmActive = false;
             }
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+
         }
     }
 }

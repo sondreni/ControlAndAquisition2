@@ -39,5 +39,11 @@ namespace SCADAHMI
             gridAlarmHistory.DataSource = AlarmList;
             gridAlarmHistory.AutoResizeColumns();
         }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+
+        }
     }
 }
