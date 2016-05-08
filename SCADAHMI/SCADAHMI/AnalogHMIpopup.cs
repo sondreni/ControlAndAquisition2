@@ -128,9 +128,9 @@ namespace SCADAHMI
 
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
                 {
-                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+                    string AckowledgeActiveAlarm = "UPDATE ALARMLOG SET Active = 0, AcknowledgeTime = getdate() WHERE AlarmTag = @AlarmTag AND Active = 1";
 
-                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    using (SqlCommand queryAddActive = new SqlCommand(AckowledgeActiveAlarm))
                     {
                         queryAddActive.Connection = openCon;
                         queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_HH";
@@ -155,9 +155,9 @@ namespace SCADAHMI
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
                 {
-                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+                    string AckowledgeActiveAlarm = "UPDATE ALARMLOG SET Active = 0, AcknowledgeTime = getdate() WHERE AlarmTag = @AlarmTag AND Active = 1";
 
-                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    using (SqlCommand queryAddActive = new SqlCommand(AckowledgeActiveAlarm))
                     {
                         queryAddActive.Connection = openCon;
                         queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_H";
@@ -180,9 +180,9 @@ namespace SCADAHMI
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
                 {
-                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+                    string AckowledgeActiveAlarm = "UPDATE ALARMLOG SET Active = 0, AcknowledgeTime = getdate() WHERE AlarmTag = @AlarmTag AND Active = 1";
 
-                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    using (SqlCommand queryAddActive = new SqlCommand(AckowledgeActiveAlarm))
                     {
                         queryAddActive.Connection = openCon;
                         queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_L";
@@ -205,9 +205,9 @@ namespace SCADAHMI
                 //Write to SQL here****************************************
                 using (SqlConnection openCon = new SqlConnection(sqlConnectionstring))
                 {
-                    string NewActiveAlarm = "UPDATE ALARMLOG SET Active = 1, Where AlarmTag = @AlarmTag";
+                    string AckowledgeActiveAlarm = "UPDATE ALARMLOG SET Active = 0, AcknowledgeTime = getdate() WHERE AlarmTag = @AlarmTag AND Active = 1";
 
-                    using (SqlCommand queryAddActive = new SqlCommand(NewActiveAlarm))
+                    using (SqlCommand queryAddActive = new SqlCommand(AckowledgeActiveAlarm))
                     {
                         queryAddActive.Connection = openCon;
                         queryAddActive.Parameters.Add("@Alarmtag", System.Data.SqlDbType.VarChar, 30).Value = "TT01_LL";
