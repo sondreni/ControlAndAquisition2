@@ -42,6 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtU = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -156,6 +157,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.btnOpenAnalogHMI);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtValueTemp);
@@ -165,6 +167,15 @@
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Process";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(97, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "label1";
             // 
             // Form1
             // 
@@ -201,6 +212,7 @@
         private System.Windows.Forms.TextBox txtU;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnOpnController;
+        private System.Windows.Forms.Label label1;
     }
 }
 
