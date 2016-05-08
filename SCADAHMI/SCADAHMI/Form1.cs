@@ -63,7 +63,7 @@ namespace SCADAHMI
             if (AnalogPopup.AlarmActive)
             {if (btnOpenAnalogHMI.BackColor == Color.Red)
                 {
-                    btnOpenAnalogHMI.BackColor = Color.Gray;
+                    btnOpenAnalogHMI.BackColor = Color.LightGray;
                 }
                 else {
                     btnOpenAnalogHMI.BackColor = Color.Red;
@@ -89,7 +89,7 @@ namespace SCADAHMI
 
         private void btnOpenAnalogHMI_Click(object sender, EventArgs e)
         {
-            AnalogPopup.Show();
+            AnalogPopup.Show(); //Show analog sensor settings on button press.
         }
     }
 }
