@@ -182,10 +182,11 @@
             // 
             // gridAlarms
             // 
+            this.gridAlarms.AllowUserToOrderColumns = true;
             this.gridAlarms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridAlarms.Location = new System.Drawing.Point(12, 191);
+            this.gridAlarms.Location = new System.Drawing.Point(12, 223);
             this.gridAlarms.Name = "gridAlarms";
-            this.gridAlarms.Size = new System.Drawing.Size(605, 113);
+            this.gridAlarms.Size = new System.Drawing.Size(605, 81);
             this.gridAlarms.TabIndex = 25;
             // 
             // Form1
