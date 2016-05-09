@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtValueTemp = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnStartHMI = new System.Windows.Forms.Button();
             this.tmrHMI = new System.Windows.Forms.Timer(this.components);
             this.txtSetPoint = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -43,9 +42,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtU = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblTT01Alarm = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gridAlarms = new System.Windows.Forms.DataGridView();
-            this.lblTT01Alarm = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -68,16 +68,6 @@
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "°C Process Value";
-            // 
-            // btnStartHMI
-            // 
-            this.btnStartHMI.Location = new System.Drawing.Point(12, 13);
-            this.btnStartHMI.Name = "btnStartHMI";
-            this.btnStartHMI.Size = new System.Drawing.Size(82, 23);
-            this.btnStartHMI.TabIndex = 5;
-            this.btnStartHMI.Text = "Start HMI";
-            this.btnStartHMI.UseVisualStyleBackColor = true;
-            this.btnStartHMI.Click += new System.EventHandler(this.btnStartHMI_Click);
             // 
             // tmrHMI
             // 
@@ -173,6 +163,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Process";
             // 
+            // lblTT01Alarm
+            // 
+            this.lblTT01Alarm.AutoSize = true;
+            this.lblTT01Alarm.Location = new System.Drawing.Point(97, 23);
+            this.lblTT01Alarm.Name = "lblTT01Alarm";
+            this.lblTT01Alarm.Size = new System.Drawing.Size(0, 13);
+            this.lblTT01Alarm.TabIndex = 22;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -191,24 +189,25 @@
             this.gridAlarms.Size = new System.Drawing.Size(605, 81);
             this.gridAlarms.TabIndex = 25;
             // 
-            // lblTT01Alarm
+            // label1
             // 
-            this.lblTT01Alarm.AutoSize = true;
-            this.lblTT01Alarm.Location = new System.Drawing.Point(97, 23);
-            this.lblTT01Alarm.Name = "lblTT01Alarm";
-            this.lblTT01Alarm.Size = new System.Drawing.Size(0, 13);
-            this.lblTT01Alarm.TabIndex = 22;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 204);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Active Alarms";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 316);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.gridAlarms);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnShowAlrmHist);
-            this.Controls.Add(this.btnStartHMI);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -220,13 +219,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridAlarms)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnStartHMI;
         private System.Windows.Forms.TextBox txtValueTemp;
         private System.Windows.Forms.Timer tmrHMI;
         private System.Windows.Forms.TextBox txtSetPoint;
@@ -241,6 +240,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView gridAlarms;
         private System.Windows.Forms.Label lblTT01Alarm;
+        private System.Windows.Forms.Label label1;
     }
 }
 

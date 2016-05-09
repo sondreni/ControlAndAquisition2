@@ -23,6 +23,7 @@ namespace Datalogger
         public Form1()
         {
             InitializeComponent();
+            
 
             TT01 = new AnalogLog("TT01", SQLConnectionString,"PID01");
 

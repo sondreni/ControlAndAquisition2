@@ -41,10 +41,6 @@ namespace SCADAHMI
 
         }
 
-        private void btnStartHMI_Click(object sender, EventArgs e)
-        {
-            tmrHMI.Start();
-        }
 
         private void tmrHMI_Tick(object sender, EventArgs e)
         {
@@ -97,7 +93,7 @@ namespace SCADAHMI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            tmrHMI.Start();
         }
 
         private void btnOpnController_Click(object sender, EventArgs e)
