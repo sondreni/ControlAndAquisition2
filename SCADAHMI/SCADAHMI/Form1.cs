@@ -1,15 +1,9 @@
-﻿using ControlAndAquisition;
-using Datalogger;
+﻿using Datalogger;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+
 
 namespace SCADAHMI
 {
@@ -17,16 +11,14 @@ namespace SCADAHMI
     {
         string sqlConnectionstring = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
 
-        PIDhmi PID01 = new PIDhmi("PID01");
-        AnalogHMI TT01 = new AnalogHMI("TT01","PID01");
+        PIDhmi PID01 = new PIDhmi("PID01");//Sending the PID01 tag to the PIDhmi constructor
+        AnalogHMI TT01 = new AnalogHMI("TT01","PID01");//The AnalogHMI class contains plotting of the PID in the popup so both the TT01 tag and PID01 tag is needed.
 
         #region Initialize SQL Alarm Communication
-        Alarm alarms = new Alarm();
+        Alarm alarms = new Alarm();//Creating an alarm object to get active non acknowledeged alarms
         #endregion
 
         #region Initialize parameters
-
-
         AlarmHistory alarmHist = new AlarmHistory();
         PIController pidPopup = new PIController();
         
@@ -37,14 +29,11 @@ namespace SCADAHMI
             InitializeComponent();
             alarmHist.Hide();
             pidPopup.Hide();
-            
-
         }
 
 
         private void tmrHMI_Tick(object sender, EventArgs e)
         {
-         
             IfActiveAlarm();
             TT01.Update();
             lblTT01Alarm.Text = TT01.ActiveAlarm();
@@ -53,16 +42,13 @@ namespace SCADAHMI
             txtU.Text = PID01.U.ToString();
             LoadActiveAlarms();
         }
-
-
+        
 
         private void LoadActiveAlarms()
         {
             List<Alarm> AlarmList = new List<Alarm>();
             Alarm Alarmvalue = new Alarm();
-
             AlarmList = Alarmvalue.GetAlarms(sqlConnectionstring);
-
             gridAlarms.DataSource = AlarmList;
             gridAlarms.AutoResizeColumns();
         }
@@ -100,7 +86,6 @@ namespace SCADAHMI
         {
             pidPopup.Show();
             pidPopup.TopMost = true;
-            
         }
 
         private void btnOpenAnalogHMI_Click(object sender, EventArgs e)
