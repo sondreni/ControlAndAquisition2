@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ControlAndAquisition
+﻿namespace ControlAndAquisition
 {
     class PIController
     {
@@ -20,7 +13,6 @@ namespace ControlAndAquisition
         double MinU = 0.0;
         public double r { get; set; }
         double e = 0.0;
- 
         double PV;
 
         OPC OPC_R;
@@ -28,22 +20,17 @@ namespace ControlAndAquisition
         NIDAQ NI_U;
         NIDAQ NI_PV;
 
-
-        public PIController(double TimeStep, string OPCTag)
+        public PIController(double TimeStep, string OPCTag)//KP, Ti, Max/MinU could be inputs to the constructor, but thats for another time
         {
             Ts = TimeStep;
             OPC_R = new OPC(OPCTag + "_R");
             OPC_U = new OPC(OPCTag + "_U", true);
         }
 
-
-
         public PIController(double TimeStep, string OPCTag, string NI_PV_Connect, string NI_U_Connect) : this(TimeStep,OPCTag) //PIController and simulator
         {
             NI_U = new NIDAQ(NI_U_Connect);
             NI_PV = new NIDAQ(NI_PV_Connect);
-            
-
         }
         public double Compute()
         {
@@ -52,7 +39,7 @@ namespace ControlAndAquisition
             NI_U.Value=U;
             return U;
         }
-        public double Compute(double PV)
+        public double Compute(double PV)//Standard PI controller with anti wind-up
         {
             r = OPC_R.Read();
             e = r - PV;
@@ -84,10 +71,8 @@ namespace ControlAndAquisition
                 U = P + I;
             }
 
-            
             OPC_U.Write(U);
             return U;
-
 
         }
     }

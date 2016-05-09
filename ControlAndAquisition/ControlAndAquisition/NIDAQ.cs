@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NationalInstruments;
+﻿
 using NationalInstruments.DAQmx;
 
 namespace ControlAndAquisition
@@ -12,17 +8,13 @@ namespace ControlAndAquisition
 
         private string _Connection;
         
-        public NIDAQ()
+        public NIDAQ(string Connection)//Nidaq for communication with fuji PID controller and airheater.
         {
-
-        }
-        public NIDAQ(string Connection)
-        {
-            _Connection = Connection;
+            _Connection = Connection;//Connection string for selecting the Device and port
         }
 
 
-        public double Value
+        public double Value//Using Get/Set for communication
         {
             get
             {
@@ -46,8 +38,6 @@ namespace ControlAndAquisition
             }
         }
         
-        
-
 
     }
 }

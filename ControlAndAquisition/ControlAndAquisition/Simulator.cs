@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace ControlAndAquisition
@@ -22,22 +18,20 @@ namespace ControlAndAquisition
         private double ts { get; set; }
         private double gain { get; set; }
 
-        public Simulator(double TimeStep)
+        public Simulator(double TimeStep)//Airheater process simulator, self running
         {
             enviroment = y = 20.0;
-            
             TimeConstant = 19.7241;
-            gain = 5.4828;
-            tau = 2.3;
+            gain = 5.4828;//modelgain
+            tau = 2.3;//timedelay
             ts = TimeStep;
             delayu = new double[Convert.ToInt16(tau / ts)];
-            for (int i = 0; i < delayu.Length; i++)
+            for (int i = 0; i < delayu.Length; i++)//Initializing the delay array
             {
                 delayu[i] = 0;
             }
             Timer aTimer = new Timer(ts * 1000);
-
-
+            
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
@@ -46,12 +40,12 @@ namespace ControlAndAquisition
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            updateY();
+            updateY();//runnning each tick
         }
 
-        private void updateY()
+        private void updateY()//Simulator run
         {
-            for (int i = 0; i < delayu.Length-1; i++)
+            for (int i = 0; i < delayu.Length-1; i++)//running through the delay array
             {
                 delayu[i+1] = delayu[i];
             }
@@ -61,7 +55,7 @@ namespace ControlAndAquisition
             y = enviroment + yHeat;
             if (rand.NextDouble()> randChance)
             {
-                y = y + (rand.NextDouble() - 0.5)/5;
+                y = y + (rand.NextDouble() - 0.5)/5;//some noise added to the process
             }
         }
         

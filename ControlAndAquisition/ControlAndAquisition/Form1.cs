@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NationalInstruments;
-using NationalInstruments.DataInfrastructure;
-//using NationalInstruments.DAQmx;
-using System.Timers;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ControlAndAquisition
 {
@@ -22,7 +10,7 @@ namespace ControlAndAquisition
         PIController PI;
         FUJIPID FU;
 
-        bool RealAirheater=false;
+        bool RealAirheater=false;//Selecting the different possible configurations
         bool Fuji=false;
 
         string NIDAQDev = "dev31/";
@@ -33,7 +21,7 @@ namespace ControlAndAquisition
         public Form1()
         {
             InitializeComponent();
-
+            //Initializing the different parts that is selected to use.
 
             if (RealAirheater && Fuji)
             {
@@ -70,7 +58,7 @@ namespace ControlAndAquisition
         
         private void tmrLoop_Tick(object sender, EventArgs e)
         {
-            
+            //Communication with real/simulated air-heater, fuji/software PID controller, whatever is chosen.
             
             if (RealAirheater && Fuji)
             {
