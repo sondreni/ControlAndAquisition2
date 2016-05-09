@@ -18,18 +18,18 @@ namespace SCADAHMI
         public AlarmHistory()
         {
             InitializeComponent();
+            FreshHistory();
 
-            List<Alarm> AlarmList = new List<Alarm>();
-            Alarm Alarmvalue = new Alarm();
 
-            AlarmList = Alarmvalue.GetAllAlarms(SQLConnectionString);
-
-            gridAlarmHistory.DataSource = AlarmList;
-            gridAlarmHistory.AutoResizeColumns();
 
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            FreshHistory();
+        }
+
+        public void FreshHistory()
         {
             List<Alarm> AlarmList = new List<Alarm>();
             Alarm Alarmvalue = new Alarm();
@@ -39,6 +39,8 @@ namespace SCADAHMI
             gridAlarmHistory.DataSource = AlarmList;
             gridAlarmHistory.AutoResizeColumns();
         }
+
+
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;

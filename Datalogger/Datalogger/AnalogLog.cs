@@ -101,11 +101,7 @@ namespace Datalogger
                     SetAlarm(Alarms[i]);
                 }
 
-
-                //List<TempValue> TempValueList = new List<TempValue>();
-                //TempValue tempValue = new TempValue();
-
-                //TempValueList = tempValue.GetTempValue(connectionString);
+                
             }
 
         }

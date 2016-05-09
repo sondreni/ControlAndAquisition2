@@ -18,22 +18,18 @@ namespace SCADAHMI
         string sqlConnectionstring = "Data Source=SONDRES\\CITADEL;" + "Initial Catalog=SCADADatabase;" + "User id=Sondre;" + "Password=;";
 
         PIDhmi PID01 = new PIDhmi("PID01");
-        AnalogHMI TT01 = new AnalogHMI("TT01");
+        AnalogHMI TT01 = new AnalogHMI("TT01","PID01");
 
         #region Initialize SQL Alarm Communication
         Alarm alarms = new Alarm();
         #endregion
 
         #region Initialize parameters
-        double Y;
-        double R;
-        double U;
-        double time = 0;
 
 
         AlarmHistory alarmHist = new AlarmHistory();
         PIController pidPopup = new PIController();
-        AnalogHMIpopup AnalogPopup = new AnalogHMIpopup();
+        
         #endregion
 
         public Form1()
@@ -41,7 +37,7 @@ namespace SCADAHMI
             InitializeComponent();
             alarmHist.Hide();
             pidPopup.Hide();
-            AnalogPopup.Hide();
+            
 
         }
 
@@ -54,7 +50,9 @@ namespace SCADAHMI
         {
          
             IfActiveAlarm();
-            txtValueTemp.Text = TT01.Y.ToString();
+            TT01.Update();
+            lblTT01Alarm.Text = TT01.ActiveAlarm();
+            txtValueTemp.Text = TT01.PV.ToString();
             txtSetPoint.Text = PID01.R.ToString();
             txtU.Text = PID01.U.ToString();
             LoadActiveAlarms();
@@ -76,7 +74,7 @@ namespace SCADAHMI
 
         public void IfActiveAlarm()
         {
-            if (AnalogPopup.AlarmActive)
+            if (TT01.ActiveAlarm() !="")
             {if (btnOpenAnalogHMI.BackColor == Color.Red)
                 {
                     btnOpenAnalogHMI.BackColor = Color.LightGray;
@@ -85,11 +83,16 @@ namespace SCADAHMI
                     btnOpenAnalogHMI.BackColor = Color.Red;
                 }
             }
+            else
+            {
+                btnOpenAnalogHMI.BackColor = Color.LightGray;
+            }
         }
 
         private void btnShowAlrmHist_Click(object sender, EventArgs e)
         {
             alarmHist.ShowDialog();
+            alarmHist.FreshHistory();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -106,7 +109,7 @@ namespace SCADAHMI
 
         private void btnOpenAnalogHMI_Click(object sender, EventArgs e)
         {
-            AnalogPopup.Show(); //Show analog sensor settings on button press.
+            TT01.AnalogPopup.Show(); //Show analog sensor settings on button press.
         }
     }
 }

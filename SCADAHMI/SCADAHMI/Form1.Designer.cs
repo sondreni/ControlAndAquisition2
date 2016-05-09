@@ -45,6 +45,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gridAlarms = new System.Windows.Forms.DataGridView();
+            this.lblTT01Alarm = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -161,6 +162,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblTT01Alarm);
             this.groupBox2.Controls.Add(this.btnOpenAnalogHMI);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtValueTemp);
@@ -188,6 +190,14 @@
             this.gridAlarms.Name = "gridAlarms";
             this.gridAlarms.Size = new System.Drawing.Size(605, 81);
             this.gridAlarms.TabIndex = 25;
+            // 
+            // lblTT01Alarm
+            // 
+            this.lblTT01Alarm.AutoSize = true;
+            this.lblTT01Alarm.Location = new System.Drawing.Point(97, 23);
+            this.lblTT01Alarm.Name = "lblTT01Alarm";
+            this.lblTT01Alarm.Size = new System.Drawing.Size(0, 13);
+            this.lblTT01Alarm.TabIndex = 22;
             // 
             // Form1
             // 
@@ -230,6 +240,7 @@
         private System.Windows.Forms.Button btnOpnController;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView gridAlarms;
+        private System.Windows.Forms.Label lblTT01Alarm;
     }
 }
 
