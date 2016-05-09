@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ControlAndAquisition
+﻿namespace ControlAndAquisition
 {
     class LowPassFilter
     {
@@ -20,7 +14,7 @@ namespace ControlAndAquisition
             a = Ts / (Tf + Ts);
         }
 
-        public double FilterValue(double ProcessValue)
+        public double FilterValue(double ProcessValue)//Lowpass pass filter, first value not filtered as this is the only one to use.
         {
             if (started)
             {
@@ -32,8 +26,6 @@ namespace ControlAndAquisition
                 started = true;
             }
             
-                       
-
             return FilteredValue;
         }
     }

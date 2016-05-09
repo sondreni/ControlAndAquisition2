@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ControlAndAquisition
 {
     class AnalogTransmitter
@@ -11,7 +6,7 @@ namespace ControlAndAquisition
         private string TAG;
         private double _PV;
         private OPC OPC_PV;
-        private string[] Alarms = { "HH", "H", "L", "LL" };
+        private string[] Alarms = { "HH", "H", "L", "LL" };//Alarms belonging to the Analog Transmitter
         private OPC[] Alarm;
         private OPC[] AlarmLim;
         private double HYS = 1;
@@ -20,16 +15,15 @@ namespace ControlAndAquisition
         LowPassFilter Filter;
 
 
-        public AnalogTransmitter(string TagID, double Timestep)
+        public AnalogTransmitter(string TagID, double Timestep)//Different constructors depending on the use of simulator/real process and Fuji PID/Software PID
         {
             TAG = TagID;
             OPC_PV = new OPC(TagID + "_PV", true);
             Alarm = new OPC[Alarms.Length];
             AlarmLim = new OPC[Alarms.Length];
             Filter = new LowPassFilter(Timestep);
-            
 
-            for (int i = 0; i < Alarms.Length; i++)
+            for (int i = 0; i < Alarms.Length; i++)//Initializing Reading Limits and writing the alarms to the OPC server
             {
                 Alarm[i] = new OPC(TAG + "_" + Alarms[i], true);
                 AlarmLim[i] = new OPC(TAG + "_" + Alarms[i] + "_Lim");
@@ -40,14 +34,13 @@ namespace ControlAndAquisition
         public AnalogTransmitter(string TagID, string NIDAQConnect_PV,double Timestep) : this(TagID,Timestep)
         {
             Read = new NIDAQ(NIDAQConnect_PV);
-            
         }
-        public AnalogTransmitter(string TagID, string NIDAQConnect_PV, double Timestep,bool write) : this(TagID,Timestep)
+        public AnalogTransmitter(string TagID, string NIDAQConnect_PV, double Timestep,bool write) : this(TagID,Timestep)//The bool write is not used, only for differensiation
         {
             Write = new NIDAQ(NIDAQConnect_PV);
         }
 
-        public void Update()
+        public void Update()//Because of the 4 different senarios, the update function has some overloading
         {
             _PV = Filter.FilterValue((Read.Value-1)*50/4);
 
@@ -60,7 +53,7 @@ namespace ControlAndAquisition
             UpdateAlarms();
             OPC_PV.Write(_PV);
         }
-        public void Update(double NewPV, bool write)
+        public void Update(double NewPV, bool write)//The bool write is not used, only for differensiation
         {
             Write.Value = ((NewPV*4/50)+1);
             Update(NewPV);
@@ -78,7 +71,7 @@ namespace ControlAndAquisition
         }
 
 
-        private void UpdateAlarms()
+        private void UpdateAlarms()//Setting and resetting the alarms in the OPC server
         {
             for (int i = 0; i < Alarms.Length; i++)
             {
