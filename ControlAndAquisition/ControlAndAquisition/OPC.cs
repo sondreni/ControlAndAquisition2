@@ -42,12 +42,12 @@ namespace ControlAndAquisition
                 Write(value);
             }
         }
-        public void opcWriteConnectSockets() //Method for setting OPC communication to read/write
+        public void opcWriteConnectSockets() //Method for setting OPC communication to write
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Write);//Connect to OPC
         }
-        public void opcReadConnectSockets()//Method for setting OPC communication to read only
+        public void opcReadConnectSockets()//Method for setting OPC communication to read 
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Read);//Connect to OPC
@@ -62,7 +62,7 @@ namespace ControlAndAquisition
 
         public double Read() //Read value from OPC
         {
-            if (_Write)
+            if (_Write)//changing to read and back to write again
             {
                 opcReadConnectSockets();
                 dataSocket.AccessMode.GetType();

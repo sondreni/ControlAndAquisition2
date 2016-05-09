@@ -38,11 +38,6 @@ namespace Datalogger
         }
         
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            
-        }
 
         private void trmUpdate_Tick(object sender, EventArgs e)
         {
@@ -54,7 +49,7 @@ namespace Datalogger
 
             AlarmList = Alarmvalue.GetAllAlarms(SQLConnectionString);
 
-            gridAlarms.DataSource = AlarmList;
+            
 
 
 

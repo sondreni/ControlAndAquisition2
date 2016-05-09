@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-
 namespace SCADAHMI
 {
     public partial class Form1 : Form
@@ -22,6 +21,8 @@ namespace SCADAHMI
         AlarmHistory alarmHist = new AlarmHistory();
         PIController pidPopup = new PIController();
         
+
+
         #endregion
 
         public Form1()
