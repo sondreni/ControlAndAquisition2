@@ -1,29 +1,24 @@
 ﻿using NationalInstruments.Net;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 
 namespace ControlAndAquisition
 {
 
     class OPC
     {
+        //Generating parameters
         public string opcurl = "opc://localhost/Matrikon.OPC.Simulation.1/Bucket Brigade.";
 
         DataSocket dataSocket = new DataSocket();
         bool _Write = false;
         double _value;
 
-        public OPC(string tagID)
+        public OPC(string tagID) //Constructor generating the OPC URL and creating a read only connection.
         {
             opcurl = opcurl + tagID;
             opcReadConnectSockets();
         }
-        public OPC(string tagID, bool write)
+        public OPC(string tagID, bool write) //Second constructor takes two arguments, if second argument is "true" the opc value is get, set.
         {
             _Write = write;
             opcurl = opcurl + tagID;
@@ -35,11 +30,8 @@ namespace ControlAndAquisition
             {
                 opcReadConnectSockets();
             }
-
-
         }
-        
-        public double Value
+        public double Value //Get set code for OPC communication
         {
             get
             {
@@ -50,47 +42,32 @@ namespace ControlAndAquisition
                 Write(value);
             }
         }
-
-
-
-
-
-        public void opcWriteConnectSockets()
+        public void opcWriteConnectSockets() //Method for setting OPC communication to read/write
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Write);//Connect to OPC
         }
-
-
-        public void opcReadConnectSockets()
+        public void opcReadConnectSockets()//Method for setting OPC communication to read only
         {
             if (dataSocket.IsConnected) { dataSocket.Disconnect(); }
             dataSocket.Connect(opcurl, AccessMode.Read);//Connect to OPC
-
         }
-
-        public void Write(double value)
+        public void Write(double value) //Method for writing to OPC
         {
             //Send value to OPC
-
             dataSocket.Data.Value = value;
             dataSocket.Update();
-            //value value sent
-
+            //value sent
         }
 
-
-        public double Read() //Get value from OPC
+        public double Read() //Read value from OPC
         {
             if (_Write)
             {
-
                 opcReadConnectSockets();
-
                 dataSocket.AccessMode.GetType();
                 dataSocket.Update();
                 _value = Convert.ToDouble(dataSocket.Data.Value);
-
                 opcWriteConnectSockets();
 
                 return _value;
@@ -99,13 +76,9 @@ namespace ControlAndAquisition
             {
                 dataSocket.AccessMode.GetType();
                 dataSocket.Update();
+
                 return Convert.ToDouble(dataSocket.Data.Value);
             }
-            //Read from OPC
-
-
-
-
         }
     }
 }
